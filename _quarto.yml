@@ -1,0 +1,17 @@
+project:
+  type: website
+  output-dir: docs
+
+render:
+  - index.qmd
+
+website:
+  title: "Pharmacometrics"
+  reader-mode: true
+
+
+format:
+  html:
+    theme:
+      light: flatly
+      dark: darkly

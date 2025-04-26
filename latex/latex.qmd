@@ -1,0 +1,63 @@
+---
+title: "Latex"
+
+execute:
+  error: false
+  echo: true
+julia:
+    execflags: ["--project=."]
+date: today
+date-format: "DD-MMM-YYYY"
+author: "Ragav Rajan S"
+format:
+  html:
+    self-contained-math: true
+    anchor-sections: true
+    theme: default
+    toc: true
+    toc-depth: 1
+    toc-expand: 1
+    toc-location: left
+    toc-title: Contents
+    number-sections: true
+    code-summary: Show/Hide Code
+    code-overflow: wrap
+    code-tools:
+      caption: Download tutorial
+      source: false
+fig-format: svg
+fig-width: 8
+fig-height: 6
+self-contained: true
+---
+
+**Import necessary packages**
+```{julia}
+using Latexify
+using LaTeXStrings
+using DataFramesMeta
+using SummaryTables
+using Markdown
+using Format
+using Unitful, UnitfulLatexify
+using CairoMakie, AlgebraOfGraphics
+Latexify.set_default(; starred=true)
+include(joinpath(@__DIR__, "..", "base-functions", "base_functions.jl"))
+```
+
+```{julia}
+full = 100
+i = 1
+lst = Vector{LaTeXString}()
+
+while full > 100 - 95
+  full = full / 2
+  num_l = latexify(full)
+  num_l1 = latexify(100-full)
+  push!(lst, "C => C/2 after $i half-life => " * num_l * "% remains (" * num_l1 * "% eliminated)")
+  i += 1
+end
+
+display.(lst);
+md"From the above calculation, 95% of the drug is eliminated after 5 lives."
+```

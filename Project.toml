@@ -1,0 +1,12 @@
+[deps]
+AlgebraOfGraphics = "cbdf2221-f076-402e-a563-3d30da359d67"
+CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
+DataFramesMeta = "1313f7d8-7da2-5740-9ea0-a2ca25f37964"
+Format = "1fa38f19-a742-5d3f-a2b9-30dd87b9d5f8"
+LaTeXStrings = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"
+Latexify = "23fbe1c1-3f47-55db-b15f-69d7ec21a316"
+Markdown = "d6f4376e-aef5-505a-96c1-9c027394607a"
+SummaryTables = "6ce4ecf0-73a7-4ce3-9fb4-80ebfe887b60"
+Symbolics = "0c5d862f-8b57-4792-8d23-62f2024744c7"
+Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
+UnitfulLatexify = "45397f5d-5981-4c77-b2b3-fc36d6e9b728"

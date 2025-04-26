@@ -1,0 +1,717 @@
+---
+title: "01-math-pp-ans"
+
+execute:
+  error: false
+  echo: true
+julia:
+    execflags: ["--project=."]
+date: today
+date-format: "DD-MMM-YYYY"
+author: "Ragav Rajan S"
+format:
+  html:
+    self-contained-math: true
+    anchor-sections: true
+    toc: true
+    toc-depth: 1
+    toc-expand: 1
+    toc-location: left
+    toc-title: Contents
+    number-sections: true
+    code-summary: Show/Hide Code
+    code-overflow: wrap
+    code-tools:
+      caption: Download tutorial
+      source: false
+fig-format: svg
+fig-width: 8
+fig-height: 6
+self-contained: true
+---
+
+**Import necessary packages**
+```{julia}
+using Latexify
+using LaTeXStrings
+using DataFramesMeta
+using SummaryTables
+using Markdown
+using Format
+using Unitful, UnitfulLatexify
+using CairoMakie, AlgebraOfGraphics
+Latexify.set_default(; starred=true)
+include(joinpath(@__DIR__, "..", "base-functions", "base_functions.jl"))
+```
+
+# 
+1. In pharmacokinetic studies, which of the following is typically a dependent variable?
+
+- A. Time after drug administration
+- **B. Plasma drug concentration**
+- C. Volume of distribution
+- D. Dose administered
+
+# 
+2. Convert 2.5 milligrams (mg) to micrograms (µg). Show your calculation.
+
+```{julia}
+value_mg = 2.5
+
+# Convert mg -> µg
+value_µg = value_mg * 1e3   # 1 mg = 1000 µg
+
+println("value in mg  : ", value_mg, " mg")
+println("value in µg  : ", value_µg, " µg")
+```
+
+#
+3. A drug’s clearance is 3 L/hour. Convert this value to mL/min. (Hint: 1 L = 1000 mL, 1 hour = 60 min)
+
+```{julia}
+drug_cl = 3
+
+# Convert L/h to mL/min
+drug_cl_ml_min = drug_cl * (1000/60) # 1 L/h = (1000/60) mL/min
+
+println("value in L/h  : ", drug_cl, " L/h")
+println("value in mL/min : ", drug_cl_ml_min, " mL/min")
+```
+
+#
+4. Round the value 12.3456 mg/L to three significant digits.
+
+```{julia}
+conc = 12.3456
+sigdigit = 3
+
+r1 = round(conc, sigdigits = sigdigit)
+
+println("Original conc = ", conc)
+println("Rounded to $sigdigit significant digits = ", r1)
+```
+
+#
+5. Which equation correctly relates the natural logarithm (ln) and base-10 logarithm (log₁₀) of a positive number? 
+
+- A. ln(x) = log₁₀(x) / 2.303
+- **B. ln(x) = 2.303 . log₁₀**
+- C. log₁₀(x) = 2.303 . ln(x)
+- D. ln(x) = log₁₀(x)
+
+#
+6. A drug has a half-life of 4 hours. If 100 mg of the drug is present initially, how much remains after 8 hours (assume first-order elimination)?
+
+- A. 50 mg
+- **B. 25 mg**
+- C. 12.5 mg
+- D. 12.5 mg
+
+```{julia}
+tₕ = 4
+Doseₒ = 100
+V = 1; # considering a fixed volume 1 mL
+```
+$$
+tₕ = \frac{0.693}{k}
+$$
+```{julia}
+k = 0.693 / tₕ
+println("The first order rate constant is ", k, " h⁻¹")
+```
+
+$$
+C = \frac{Dose_0}{V} \cdot e^{-kt} \quad \text{[Concentration at a given time]}
+$$
+
+After 8 hrs, t = 8
+```{julia}
+t = 8
+C = Doseₒ / V *  ℯ^(-k*t)
+
+println("The amount of drug that remains after $t hours is $(round(C)) mg")
+```
+
+#
+7. The term `dC/dt` in a pharmacokinetic equation represents:
+
+- A. a drug concentration at time t.
+- **B. the rate of change of concentration with respect to time.**
+- C. the time it takes for concentration to change by 1 unit.
+- D. a constant volume.
+
+#
+8. What does the area under the plasma concentration–time curve (AUC) from time 0 to infinity represent?
+
+- **A. The total drug exposure over time.**
+- B. The maximum plasma concentration achieved.
+- C. The clearance of the drug from the body.
+- D. The elimination half-life of the drug.
+
+#
+9. For a first-order elimination rate constant (k), if time is measured in hours, what are the units of (k)?
+
+**hours⁻¹**
+
+#
+10. The elimination half-life $t_{1/2}$ is related to the rate constant k by the equation $t_{1/2} = \frac{0.693}{k}$
+
+`{julia} L"k = 0.693 / t_{1/2}"`
+
+\
+
+11-15. A patient is given a single **intravenous bolus** dose of **500 mg** of Drug X. The drug’s volume of distribution is **Vd = 50 L** and its clearance is **CL = 5 L/hour**. Assume a one-compartment model with first-order elimination.
+
+#
+11. Using the scenario above, calculate the **initial plasma drug concentration** $C_0$
+ immediately after the IV bolus dose (at t = 0). *Hint: assume instant distribution of the dose in the volume of distribution.*
+
+```{julia}
+Dose = 500
+Vd = 50
+CL = 5
+
+Cₒ = Dose/Vd
+
+println("The initial concentration is $Cₒ mg/L.")
+```
+
+#
+12. Calculate the **elimination rate constant** k for Drug X using the provided clearance and volume of distribution (CL and Vd).
+
+$k = \frac{CL}{V_d}$
+
+```{julia}
+k = CL / Vd
+
+println("The elimination rate constant for Drug X is $k h⁻¹")
+```
+
+#
+13. Using your result from question 12, calculate the elimination half-life $t_\frac{1}{2}$ of Drug X.
+
+$t_\frac{1}{2} = \frac{0.693}{k}$
+
+```{julia}
+tₕ = 0.693/k
+
+println("The elimination half-life for Drug X is $(round(tₕ, digits=3)) hours")
+```
+
+#
+14. Write the formula for the **plasma concentration as a function of time** $C(t)$, for Drug X in this one-compartment model. (Use the values $C_0$ and $k$ from the scenario in your expression.)
+
+$$
+C(t) = C_0 . e^{-kt}
+$$
+
+#
+15. Using the formula from question 14, calculate the plasma drug concentration at t = 4 hours for Drug X.
+
+```{julia}
+t = 4
+
+println("Cₒ = $Cₒ mg/L")
+println("k = $k h⁻¹")
+println("t = $t h")
+
+Cₜ = Cₒ * ℯ^(-k*t)
+
+println("\nThe plasma drug concentration Cₜ at t = 4 is $Cₜ mg/L")
+```
+
+#
+16. In another patient, the plasma drug concentration was **80 mg/L at 1 hour** after dosing and **20 mg/L at 5 hours** after dosing. Assuming first-order elimination, calculate the **elimination rate constant** $k$ for this drug in the patient. *(Hint: use the two concentration–time points to solve for $k$.)*
+
+```{julia}
+c₁ = 80 
+t₁ = 1 
+
+c₂ = 20
+t₂ = 5;
+```
+
+
+Rate law equation at t₁
+$$
+\begin{align}
+\ln(c_1) &= \ln(c_0) - k \cdot t_1 \\
+\ln(80) &= \ln(c_0) - k \cdot 1 \tag{1}
+\end{align}
+$$
+
+Rate law equation at t₂
+$$
+\begin{align}
+\ln(c_2) &= \ln(c_0) - k \cdot t_2 \\
+\ln(20) &= \ln(c_0) - k \cdot 5 \tag{2}
+\end{align}
+$$
+
+Solving for equation (1) and (2)
+
+$$
+\begin{aligned}
+\ln(80) &= \ln(c_0) - k \cdot 1 \\
+\ln(20) &= \ln(c_0) - k \cdot 5 \\
+\hline
+\ln(80) - \ln(20) &= \left( \ln(c_0) - k \cdot 1 \right) - \left( \ln(c_0) - k \cdot 5 \right)
+\end{aligned}
+$$
+
+Final equation
+$$
+\begin{aligned}
+\ln(80) - \ln(20) &= 4 \cdot k
+\end{aligned}
+$$
+
+```{julia}
+k = (log(80) - log(20)) / (4)
+println("The elimination rate constant is $(round(k, digits=3)) h⁻¹")
+```
+
+#
+17. Using the $k$ from question 16, calculate the **elimination half-life** of the drug for that patient.
+
+```{julia}
+tₕ = 0.693/k
+
+println("The elimination half life is $(round(tₕ, digits=3)) hours")
+```
+
+#
+18. Write the **differential equation** describing the rate of change of drug amount $A(t)$ in the body for a continuous **IV infusion** at rate $R_0$ (zero-order input) with first-order elimination (rate constant $k$). *(Assume a one-compartment model and no other losses.)*
+
+To derive the differential equation for the amount of drug $A(t)$ in the body, we'll consider the following:
+
+- **Zero-order infusion**: The drug is infused at a constant rate $R_0$, meaning the rate of drug input to the body is constant.
+- **First-order elimination**: The drug is eliminated from the body at a rate proportional to the amount of drug in the body, with a rate constant $k$.
+
+**Key Assumptions**:
+
+- **One-compartment model**: The drug distributes uniformly in the body and no losses.
+- **Continuous IV infusion**: The drug is being infused at a constant rate $R_0$.
+- **First-order elimination**: The rate of elimination of the drug is proportional to the amount of drug in the body.
+
+**Steps to derive the differential equation:**
+
+1. **Drug Input**:
+The rate of drug infusion is constant at $R_0$, so the rate of drug input into the body is
+
+$$
+\begin{aligned}
+\frac{dA}{dt} = R_0
+\end{aligned}
+$$
+
+2. **Drug Output**: The rate of drug elimination is proportional to the amount of drug present in the body, so the rate of elimination is 
+
+$$
+\begin{aligned}
+\frac{dA}{dt} = k \cdot A(t)
+\end{aligned}
+$$
+
+where $A(t)$ the amount of drug in the body at time $𝑡$ and $𝑘$ is the first-order rate constant for elimination.
+
+**Final Differential Equation** (Input - output)
+
+$$
+\begin{aligned}
+\frac{dA}{dt} = R_0 - k \cdot A(t)
+\end{aligned}
+$$
+
+Where:
+
+- $A(t)$ is the amount of drug in the body at time $𝑡$.
+- $R_0$ ​is the constant infusion rate (zero-order input).
+- $k$ is the first-order elimination rate constant.
+
+This equation describes the rate of change of the drug amount in the body over time.
+
+#
+19. For the IV bolus **scenario in questions 11–15** (500 mg dose, CL = 5 L/h), calculate the **AUC from 0 to ∞**. Include units in your answer.
+
+```{julia}
+Doseᵢᵥ = 500
+CL = 5
+
+AUC₀₋ᵢₙ = Doseᵢᵥ / CL
+
+println("The Area under the curve (0 - ∞) is $AUC₀₋ᵢₙ mg.h/L")
+```
+
+#
+20. For a zero-order elimination process with a rate constant $k_0 = 2\, \text{mg/L/hour}$ and an initial concentration $C_0 = 20\, \text{mg/L}$ , how long will it take for the concentration to drop to half of its initial value? Show your calculation.
+
+**Half-life for Zero-order**
+$$
+\begin{aligned}
+t_{1/2} = \frac{0.5 \cdot c_0}{k_0}
+\end{aligned}
+$$
+
+```{julia}
+kₒ = 2
+cₒ = 20
+
+tₕ = 0.5 * cₒ / kₒ
+println("The time taken for the concentration to drop to half its initial value is $tₕ hours")
+```
+
+#
+21. A drug’s clearance is reported as **5 L/hour** in a 70-kg patient. Convert this clearance to **mL/min/kg**. *(Perform the unit conversions step by step.)*
+
+```{julia}
+CL_old = 5 # L/hour
+
+# Clearance in mL/min
+CL_new = CL_old * (1000/60) # 1 L/hour = 1000/60 mL/min
+
+# Clearance in mL/min/kg
+CL_new_by_mass = CL_new / 70 
+
+println("The value is $(round(CL_new_by_mass, digits = 3)) mL/min/kg")
+```
+
+#
+22. A single IV dose of **100 mg** of Drug Y produces an **AUC₀₋∞** of **25 mg·h/L**. Calculate the **clearance (CL)** of Drug Y in L/hour.
+
+```{julia}
+Doseᵢᵥ = 100
+AUC₀₋ᵢₙ = 25
+
+CL = Doseᵢᵥ / AUC₀₋ᵢₙ
+
+println("The clearance is $CL L/hour")
+```
+
+#
+23. Derivation: Show that for a one-compartment model, $CL = k \cdot V_d$
+
+Given:
+
+- A one-compartment model is used.
+- $CL$ = Clearance, 
+- $k$ = Elimination rate constant, and 
+- $V_d$ = Volume of distribution.
+- $AUC_{0-∞}$ = Area Under the Concentration-Time curve.
+- $C_0$ = Initial concentration.
+- $Dose$
+
+**Step 1: Expression for $AUC_{0-∞}$** 
+
+For a one-compartment model, the concentration-time curve follows an exponential decay, and the AUC is the integral of this curve over time.
+$$
+\begin{align}
+AUC_{0-∞} = \frac{C_0}{k} \tag{1}
+\end{align}
+$$
+
+**Step 2: Relationship between $C_0$ and $Dose$**
+
+After the dose is administered, the initial concentration in the body is the dose divided by the volume in which the drug is distributed.
+$$
+\begin{align}
+C_0 = \frac{Dose}{V_d} \tag{2}
+\end{align}
+$$
+
+**Step 3: Expression for $CL$ from $AUC_{0-∞}$**
+
+Now, the clearance $CL$ is defined as the ratio of the $Dose$ to the area under the concentration-time curve $AUC_{0-∞}$
+
+$$
+\begin{align}
+CL = \frac{Dose}{AUC_{0-∞}} \tag{3}
+\end{align}
+$$
+
+**Step 4: Substitute the expressions for $AUC_{0-∞}$ and $C_0$**
+
+Substituting $(1)$ and $(3)$
+$$
+\begin{align}
+CL = \frac{Dose}{\frac{C_0}{k}}
+\end{align}
+$$
+
+Simplifying
+$$
+\begin{align}
+CL = \frac{Dose \cdot k}{C_0}
+\end{align}
+$$
+
+Substituting $(2)$
+$$
+\begin{align}
+CL = \frac{Dose \cdot k}{\frac{Dose}{V_d}}
+\end{align}
+$$
+
+Thus, we have derived the desired result:
+
+$$
+\begin{align}
+CL = k \cdot V_d
+\end{align}
+$$
+
+#
+24. A drug’s plasma concentration must drop to **25% of its initial value** before the next dose. If the elimination rate constant is $k = 0.10h^{-1}$, how long will this take? *Show your calculation (solve for time)*. 
+
+Assuming IV bolus and 1st order elimination process, the concentration across time $t$ is given by
+$$
+\begin{align}
+C(t) = C_0 \cdot e^{-k \cdot t} \tag{1}
+\end{align}
+$$
+
+Concentration reduces to 0.25 of initial value, rewriting the equation $(1)$
+$$
+\begin{align}
+0.25 \cdot {C_0} &= C_0 \cdot e^{-k \cdot t} \\
+0.25 &= e^{-k \cdot t}
+\end{align}
+$$
+
+Taking Natural log on both sides
+$$
+\begin{align}
+\ln{(0.25)} &= \ln{(e^{-k \cdot t})} \\
+\ln{(0.25)} &= -k \cdot t
+\end{align}
+$$
+
+Finally
+$$
+t = -\frac{\ln{(0.25)}}{k}
+$$
+
+```{julia}
+k = 0.10 # h⁻¹
+t = -log(0.25)/0.1
+
+print("The time taken to reach 25% of C₀ is $(round(t, digits=3))")
+```
+
+#
+25. Explain why the half-life of a **first-order** elimination process is constant (independent of concentration), whereas the time to halve the concentration in a **zero-order** process depends on the initial concentration. *Use the mathematical expressions for first-order and zero-order concentration decay to support your explanation.*
+
+| First Order reaction              | Zero Order reaction                 |
+|-----------------------------------|-------------------------------------|
+|$C(t) = C_0 \cdot e^{-k \cdot t}$  |$C(t) =  C_0 - k_0 \cdot t$          |
+|$C(t_{1/2}) = 0.5 \cdot C_0$       |$C(t_{1/2}) = 0.5 \cdot C_0$         |
+|$0.5 = e^-{k \cdot t}$             |$0.5 \cdot C_0 = C_0 - k_0 \cdot t$  |
+|$\ln(2) = k \cdot t$               |$0.5 \cdot C_0 = k_0 \cdot t$        |
+|$t_{1/2} = \frac{\ln(2)}{k}$       |$t_{1/2} = \frac{0.5 \cdot C_0}{k_0}$|
+
+#
+26. Derivation: Solve the differential equation `{julia} latexify("dC/dt = -k*C")` with initial condition `{julia} latexify("C(0) = C_0")` Show the steps to derive the solution `{julia} L"C(t) = C_0 . e^{-kt}"` (Hint: separate variables and integrate.)
+
+According to rate law,
+$$
+\begin{align}
+\frac{dC}{dt} = -k \cdot C
+\end{align}
+$$
+
+Rearranging
+$$
+\begin{align}
+\frac{dC}{C} = -k \cdot dt
+\end{align}
+$$
+
+Integrating both sides
+
+$$
+\begin{align}
+\int_{C_0}^{C}\frac{dC}{C} = - \int_{0}^{t} k \cdot dt
+\end{align}
+$$
+
+$$
+\begin{align}
+\ln{(C)} - \ln{(C_0)} = -k \cdot t \\
+\ln{(C)} = \ln{(C_0)} - k \cdot t
+\end{align}
+$$
+
+exponentiating both sides
+$$
+\begin{align}
+e^{\ln{(C)}} &= e^{\ln{(C_0)} - k \cdot t} \\
+C &= C_0 \cdot e^{-k \cdot t}
+\end{align}
+$$
+
+#
+27. Derivation: Solve the differential equation $dA/dt = R_0 - k \cdot A$ for an infusion with first-order elimination (from question 18). Assume $A(0) = 0$. Provide the expression for $A(t)$. (Hint: this ODE reaches a steady-state as $t \,\to\, ∞$.)
+
+$$
+\begin{align}
+\frac{dA}{dt} + k \cdot A = R_0
+\end{align}
+$$
+
+Multiplying using integrating factor $e^{k \cdot t}$ 
+
+[if $\frac{dx}{dy} + P(y) \cdot x = Q(t)$, I.F. = $e^{P(t) \cdot dt}$]
+
+$$
+\begin{equation}
+\frac{dA}{dt} \cdot e^{k \cdot t} + k \cdot A \cdot e^{kt} = R_0 \cdot e^{k \cdot t}
+\end{equation}
+$$
+
+Using product rule on LHS
+$$
+\begin{align}
+\frac{d}{dt}(A \cdot e^{kt}) = R_0 \cdot e^{k \cdot t}
+\end{align}
+$$
+
+Integrating both sides based on $t$ 
+[$\frac{d}{dx}(F(x)) \cdot dx = F(x) + C$]
+
+$$
+\begin{align}
+\int \frac{d}{dt}(A \cdot e^{kt}) \cdot dt &= \int R_0 \cdot e^{k \cdot t} \cdot dt \\
+A(t) \cdot e^{kt} &= \frac{R_0}{k} \cdot e^{k \cdot t} + C
+\end{align}
+$$
+
+Dividing by $e^{kt}$
+
+$$
+\begin{align}
+A(t) = \frac{R_0}{k} + C \cdot e^{-k \cdot t} \tag{1}
+\end{align}
+$$
+
+Applying $A(0) = 0$ and $t = 0$, $C = -\frac{R_0}{k} \tag{2}$
+
+Substituting $(2)$ in $(1)$, The expression for $A(t)$ is:
+
+$$
+\begin{align}
+A(t) &= \frac{R_0}{k} - \frac{R_0}{k} \cdot e^{-k \cdot t} \\
+A(t) &= \frac{R_0}{k}(1 -  e^{-k \cdot t})
+\end{align}
+$$
+
+As $t \,\to\, ∞$, the exponential term $e^{-k \cdot t} \,\to\, 0$, and the steady-state value of $A(t)$ is:
+
+$$
+\begin{align}
+A_{steady} = \frac{R_0}{k}
+\end{align}
+$$
+
+
+#
+28. Using the **trapezoidal rule**, estimate the **AUC from 0 to 8 hours** for Drug Z given the plasma concentration–time data below. Show your calculations for each trapezoid segment.
+
+| Time (h) | Concentration (mg/L) |
+|----------|----------------------|
+| 0        | 10.00                |
+| 2        | 5.00                 |
+| 4        | 2.50                 |
+| 6        | 1.25                 |
+| 8        | 0.63                 |
+
+```{julia}
+# Example data from the table above
+times = [0, 2, 4, 6, 8]
+concentrations = [10.0, 5.0, 2.5, 1.25, 0.63]
+
+latex_strs = Vector{LaTeXString}()
+auci = Vector{Float64}()
+
+# Function to compute AUC using trapezoidal rule
+function trapz_auc(t::Vector{Int64}, conc::Vector{Float64})
+    if length(t) != length(conc)
+        error("Time and concentration vectors must be the same length")
+    end
+    
+    auc_total = 0.0
+    for i in 2:length(times)
+        t1 = t[i]
+        t2 = t[i-1]
+        c1 = conc[i]
+        c2 = conc[i-1]
+        
+        lstr = @latexdefine AUC = ($c1 + $c2) * ($t1-$t2) / 2 env=:equation
+        
+        push!(latex_strs, latexify("$t2 => $t1") * lstr)
+        push!(auci, AUC)
+
+        auc_total += AUC
+    end
+
+    return auc_total
+end
+
+trapz_auc(times, concentrations)
+display.(latex_strs);
+```
+
+```{julia}
+expr = :($(join(string.(auci), " + "))) 
+equation = Meta.parse(string(expr))
+latexify(string("AUC_total => ", equation, " = ", eval(equation)))
+```
+
+#
+29. Consider a **two-compartment model** with a central compartment (1) and a peripheral compartment (2). Let $k_{12}$ be the rate constant for drug transfer from compartment 1 to 2, $k_{21}$ the transfer from 2 to 1, and $k_{10}$ the elimination rate constant from compartment 1 (to outside the system). **Write the differential equations** for the change in drug amounts $A_{1}(t)$ and $A_{2}(t)$ in each compartment over time.
+![](images/paste-1.png)
+
+$Dose (D)$ is the administered dose, mg
+
+$Vc$ is the volume of distribution of the central compartment, litres
+
+$k_{12}$ is the first order transfer rate constant from the central to the peripheral compartment, hour-1
+
+$k_{21}$ is the first order transfer rate constant from the peripheral to the central 
+compartment, hour-1
+
+$k_{10}$ is the first order elimination rate constant from the central compartment, hour-1
+
+$$
+\begin{equation}
+\frac{dA_{1}}{dt} = k_{21} \cdot A_{2} - k_{12} \cdot A_{1} - k_{10} \cdot A_{1}
+\end{equation}
+$$
+
+$$
+\begin{equation}
+\frac{dA_{2}}{dt} = k_{12} \cdot A_{1} - k_{21} \cdot A_{2}
+\end{equation}
+$$
+
+
+#
+30. For a first-order elimination process, approximately **how many half-life periods** are needed for more than **95%** of the drug to be eliminated from the body? Justify your answer with calculations or reasoning
+
+Assuming IV bolus and 1st order elimination process, the concentration across time $t$ is given by
+
+```{julia}
+full = 100
+i = 1
+lst = Vector{LaTeXString}()
+
+while full > 100 - 95
+  full = full / 2
+  num_l = latexify(full)
+  num_l1 = latexify(100-full)
+  push!(lst, "C => C/2 after $i half-life => " * num_l * "% remains (" * num_l1 * "% eliminated)")
+  i += 1
+end
+
+display.(lst);
+md"From the above calculation, 95% of the drug is eliminated after 5 lives."
+```

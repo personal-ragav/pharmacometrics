@@ -1,0 +1,20 @@
+{
+  "about.qmd": {
+    "about.html": "60a47396"
+  },
+  "index.qmd": {
+    "index.html": "f27695c8"
+  },
+  "latex/latex.qmd": {
+    "latex.html": "7d0bf253"
+  },
+  "Week-1/01-math-pp-ans.qmd": {
+    "01-math-pp-ans.html": "5e40af8d"
+  },
+  "Week-2/02-one-comp-IVBolus-pp-ans.qmd": {
+    "02-one-comp-IVBolus-pp-ans.html": "8d4564c8"
+  },
+  "Week-3/03-p1-mem-perm-pp.qmd": {
+    "03-p1-mem-perm-pp.html": "1754e4dd"
+  }
+}

@@ -1,0 +1,918 @@
+---
+title: "One-Compartment IV Bolus Problem Set (Answers)"
+
+execute:
+  error: true
+  echo: true
+engine: julia
+date: today
+date-format: "DD-MMM-YYYY"
+author: "Ragav Rajan S"
+format:
+  html:
+    self-contained-math: true
+    anchor-sections: true
+    toc: true
+    toc-depth: 1
+    toc-expand: 1
+    toc-location: left
+    toc-title: Contents
+    number-sections: true
+    code-fold: true
+    code-summary: Ans
+    code-overflow: wrap
+    code-tools:
+      caption: Download tutorial
+      source: false
+fig-format: svg
+fig-width: 8
+fig-height: 6
+self-contained: true
+---
+
+**Import necessary packages**
+```{julia}
+using Latexify
+using LaTeXStrings
+using Unitful, UnitfulLatexify
+using DataFramesMeta
+using SummaryTables
+using Markdown
+using Format
+using CairoMakie, AlgebraOfGraphics
+Latexify.set_default(; starred=true)
+include(joinpath("..", "base-functions", "base_functions.jl"))
+```
+
+# Basic Concentration Problems
+
+1. The half-life of drug X is 10 hours. If the initial concentration is 100 mg/L, what is the concentration 3 hours later?
+
+Assuming the drug is given as IV bolus and follows first order kinetics `{julia} L"C(t) = C_0 * e^{-k*t}"` and half life `{julia} L"t_{1/2} = 0.693 / k"`
+
+```{julia}
+tₕ = 10
+t = 3
+C₀ = 100
+
+k, k_lat = k_latex(tₕ)
+_, ct_lat = ct_latex(C₀,k,t, "mg/L")
+
+display(k_lat)
+display(ct_lat)
+```
+
+-------
+
+2. The half-life of drug X is 10 hours. If the initial concentration is 100 mg/L, what is the concentration 6 hours later?
+
+```{julia}
+tₕ = 10
+t = 6
+Cₜ  = 100
+
+k, k_lat = k_latex(tₕ)
+_, ct_lat = ct_latex(C₀,k,t, "mg/L")
+
+display(k_lat)
+display(ct_lat)
+```
+
+-----
+
+3. The half-life of drug X is 10 hours. If the initial concentration is 100 mg/L, what is the concentration 10 hours later?
+
+```{julia}
+tₕ = 10
+t = 10
+C₀ = 100
+
+k, k_lat = k_latex(tₕ)
+_, ct_lat = ct_latex(C₀,k,t, "mg/L")
+
+display(k_lat)
+display(ct_lat)
+```
+
+----
+
+4. The half-life of drug X is 10 hours. If the initial concentration is 10 mg/L, what is the concentration 20 hours later?
+
+```{julia}
+tₕ = 10
+t = 20
+C₀ = 10
+
+k, k_lat = k_latex(tₕ)
+_, ct_lat = ct_latex(C₀,k,t, "mg/L")
+
+display(k_lat)
+display(ct_lat)
+```
+
+-----
+
+5. The half-life of drug X is 10 hours. If the concentration at four hours postdose is 10 mg/L, what is the concentration 20 hours postdose?
+
+```{julia}
+tₕ = 10
+t1 = 4
+Cₜ₁ = 10
+t2 = 20
+Cu = "mg/L"
+
+k, k_lat = k_latex(tₕ)
+C₀, C₀_lat = c0_latex(Cₜ₁, k, t1, Cu)
+_, ct_lat = ct_latex(C₀, k, t2, Cu)
+
+display(k_lat)
+display(C₀_lat)
+display(ct_lat)
+```
+
+-----
+
+6. The half-life of drug X is 6 hours. If the concentration at 2 hours postdose is 10 mg/L, what is the concentration 7.5 hours postdose?
+
+```{julia}
+tₕ = 6
+t1 = 2
+Cₜ₁ = 10
+t2 = 7.5
+Cu = "mg/L"
+
+k, k_lat = k_latex(tₕ)
+C₀, C₀_lat = c0_latex(Cₜ₁, k, t1, Cu)
+_, ct_lat = ct_latex(C₀, k, t2, Cu)
+
+display(k_lat)
+display(C₀_lat)
+display(ct_lat)
+```
+
+-----
+
+7. The half-life of drug X is 24 hours. If the concentration at 1 hour postdose is 10 mg/L, what is the concentration 24 hours postdose?
+
+```{julia}
+tₕ = 24
+t1 = 1
+Cₜ₁ = 10
+t2 = 24
+Cu = "mg/L"
+
+k, k_lat = k_latex(tₕ)
+C₀, C₀_lat = c0_latex(Cₜ₁, k, t1, Cu)
+_, ct_lat = ct_latex(C₀, k, t2, Cu)
+
+display(k_lat)
+display(C₀_lat)
+display(ct_lat)
+```
+
+-----
+
+8. The half-life of drug X is 10 hours. If the concentration at sixteen hours postdose is 10 mg/L, what is the concentration 4 hours postdose?
+
+```{julia}
+tₕ = 10
+t1 = 16
+Cₜ₁ = 10 
+t2 = 4
+Cu = "mg/L"
+
+k, k_lat = k_latex(tₕ)
+C₀, C₀_lat = c0_latex(Cₜ₁, k, t1, Cu)
+_, ct_lat = ct_latex(C₀, k, t2, Cu)
+
+display(k_lat)
+display(C₀_lat)
+display(ct_lat)
+```
+
+-----
+
+9. The half-life of drug X is 10 hours. If the concentration at four hours postdose is 20 mg/L, what is the concentration 100 hours postdose?
+
+```{julia}
+tₕ = 10
+t1 = 4
+Cₜ₁ = 20
+t2 = 100
+Cu = "mg/L"
+
+k, k_lat = k_latex(tₕ)
+C₀, C₀_lat = c0_latex(Cₜ₁, k, t1, Cu)
+_, ct_lat = ct_latex(C₀, k, t2, Cu)
+
+display(k_lat)
+display(C₀_lat)
+display(ct_lat)
+```
+ 
+
+-----
+
+# Half-Life and Parameter Determination
+
+10. The concentration of drug X is 10 mg/L 3 hours postdose and 6 mg/L 8 hours postdose. What is the half-life of the drug?
+
+```{julia}
+Cₜ₁ = 10
+t1 = 3
+
+Cₜ₂ = 6
+t2 = 8
+Cu = "mg/L"
+
+th, th_lat = th_latex(Cₜ₁,t1,Cₜ₂,t2,Cu)
+
+display(th_lat)
+```
+
+-----
+
+11. The concentration of drug X is 6 mg/L 2 hours postdose and 1 mg/L 6 hours postdose. What is the half-life of the drug?
+
+```{julia}
+Cₜ₁ = 6
+t1 = 2
+
+Cₜ₂ = 1
+t2 = 6
+Cu = "mg/L"
+
+th, th_lat = th_latex(Cₜ₁,t1,Cₜ₂,t2,Cu)
+
+display(th_lat)
+```
+
+-----
+
+12. The concentration of drug X is 15 mg/L 8 hours postdose and 20 mg/L 2 hours postdose. What is the half-life of the drug?
+
+```{julia}
+Cₜ₁ = 15
+t1 = 8
+
+Cₜ₂ = 20
+t2 = 2
+Cu = "mg/L"
+
+th, th_lat = th_latex(Cₜ₁,t1,Cₜ₂,t2,Cu)
+
+display(th_lat)
+```
+
+-----
+
+13. The concentration of drug X is 100 mg/L 1 hour postdose and 6 mg/L 5 hours postdose. What is the half-life of the drug?
+
+```{julia}
+Cₜ₁ = 100
+t1 = 1
+
+Cₜ₂ = 6
+t2 = 5
+Cu = "mg/L"
+
+th, th_lat = th_latex(Cₜ₁,t1,Cₜ₂,t2,Cu)
+
+display(th_lat)
+```
+
+-----
+
+14. The concentration of drug X is 100 mg/L 0 hours postdose and 50 mg/L 8 hours postdose. What is the half-life of the drug? If the dose was 1000 mg what is the volume of distribution and the clearance?
+
+```{julia}
+C₀ = 100
+t₀ = 0
+
+Cₜ₂ = 50
+t2 = 8
+
+A = 1000
+Cu = "mg/L"
+
+tₕ, th_lat = th_latex(C₀,t₀,Cₜ₂,t2,Cu)
+k, k_lat =  k_latex(tₕ)
+vd, vd_lat = vd_latex(A, C₀, "mg", "L")
+Cl, cl_lat = cl_latex(vd, k, "L")
+
+display(th_lat)
+display(k_lat)
+display(vd_lat)
+display(cl_lat)
+```
+
+----
+
+15. The concentration of drug X is 10 mg/L 0 hours postdose and 5 mg/L 8 hours postdose. What is the half-life of the drug? If the dose was 1000 mg what is the volume of distribution and the clearance?
+
+```{julia}
+C₀ = 10
+t₀ = 0
+
+Cₜ₂ = 5
+t2 = 8
+
+A = 1000
+Cu = "mg/L"
+
+tₕ, th_lat = th_latex(C₀,t₀,Cₜ₂,t2,Cu)
+k, k_lat =  k_latex(tₕ)
+vd, vd_lat = vd_latex(A, C₀, "mg", "L")
+Cl, cl_lat = cl_latex(vd, k, "L")
+
+display(th_lat)
+display(k_lat)
+display(vd_lat)
+display(cl_lat)
+```
+
+----
+
+16. The concentration of drug X is 100 mg/L 0 hours postdose and 25 mg/L 6 hours postdose. What is the half-life of the drug? If the dose was 100 mg what is the volume of distribution and the clearance?
+
+```{julia}
+C₀ = 100
+t₀ = 0
+
+Cₜ₂ = 25
+t2 = 6
+
+A = 100
+Cu = "mg/L"
+
+tₕ, th_lat = th_latex(C₀,t₀,Cₜ₂,t2,Cu)
+k, k_lat =  k_latex(tₕ)
+vd, vd_lat = vd_latex(A, C₀, "mg", "L")
+Cl, cl_lat = cl_latex(vd, k, "L")
+
+display(th_lat)
+display(k_lat)
+display(vd_lat)
+display(cl_lat)
+```
+
+----
+
+17. The concentration of drug X is 1000 mg/L 0 hours postdose and 50 mg/L 8 hours postdose. What is the half-life of the drug? If the dose was 10000 mg what is the volume of distribution and the clearance?
+
+```{julia}
+C₀ = 1000
+t₀ = 0
+
+Cₜ₂ = 50
+t2 = 8
+
+A = 10000
+Cu = "mg/L"
+
+tₕ, th_lat = th_latex(C₀,t₀,Cₜ₂,t2,Cu)
+k, k_lat =  k_latex(tₕ)
+vd, vd_lat = vd_latex(A, C₀, "mg", "L")
+Cl, cl_lat = cl_latex(vd, k, "L")
+
+display(th_lat)
+display(k_lat)
+display(vd_lat)
+display(cl_lat)
+```
+
+-----
+
+# AUC Problems
+
+18. The AUC following a single 100 mg intravenous dose of drug Y was 10 mg*hr/L. The half-life was 2 hours. Calculate the clearance and volume of distribution.
+
+```{julia}
+A = 100
+AUC = 10
+
+tₕ = 2
+
+k, k_lat = k_latex(tₕ)
+Cl, cl_lat = cl_auc_latex(A, AUC, "L/hr")
+vd, vd_lat = vd_cl_latex(Cl,k, "L")
+
+display(cl_lat)
+display(k_lat)
+display(vd_lat)
+```
+
+----
+
+19. The AUC following a single 100 mg intravenous dose of drug Y was 10 mg*hr/L. The half-life was 6 hours. Calculate the clearance and volume of distribution.
+
+```{julia}
+A = 100
+AUC = 10
+
+tₕ = 6
+
+k, k_lat = k_latex(tₕ)
+Cl, cl_lat = cl_auc_latex(A, AUC, "L/hr")
+vd, vd_lat = vd_cl_latex(Cl,k, "L")
+
+display(cl_lat)
+display(k_lat)
+display(vd_lat)
+```
+
+---
+
+20. The AUC following a single 100 mg intravenous dose of drug Y was 100 mg*hr/L. The half-life was 2 hours. Calculate the clearance and volume of distribution.
+
+```{julia}
+A = 100
+AUC = 100
+
+tₕ = 2
+
+k, k_lat = k_latex(tₕ)
+Cl, cl_lat = cl_auc_latex(A, AUC, "L/hr")
+vd, vd_lat = vd_cl_latex(Cl,k, "L")
+
+display(cl_lat)
+display(k_lat)
+display(vd_lat)
+```
+
+----
+
+21. The AUC following a single 1000 mg intravenous dose of drug Y was 100 mg*hr/L. The half-life was 10 hours. Calculate the clearance and volume of distribution.
+
+```{julia}
+A = 1000
+AUC = 100
+
+tₕ = 10
+
+k, k_lat = k_latex(tₕ)
+Cl, cl_lat = cl_auc_latex(A, AUC, "L/hr")
+vd, vd_lat = vd_cl_latex(Cl,k, "L")
+
+display(cl_lat)
+display(k_lat)
+display(vd_lat)
+```
+
+----
+
+22. The AUC following a single 50 mg intravenous dose of drug Y was 10 mg*hr/L. The half-life was 2 hours. Calculate the clearance and volume of distribution.
+
+```{julia}
+A = 50
+AUC = 10
+
+tₕ = 2
+
+k, k_lat = k_latex(tₕ)
+Cl, cl_lat = cl_auc_latex(A, AUC, "L/hr")
+vd, vd_lat = vd_cl_latex(Cl,k, "L")
+
+display(cl_lat)
+display(k_lat)
+display(vd_lat)
+```
+
+----
+
+# Data Set Analysis Problems
+
+Practice with the one-compartment model, IV bolus. For the following data sets, assume drug X is administered by IV bolus and follows a one-compartment open model for drug disposition. (in other words, monoexponential decline) Plot each data set using AlgebraOfGraphics on log-scale, and determine the following:
+
+- half-life
+- volume of distribution
+- total body clearance
+- AUC from time zero to infinity
+- using the appropriate equation, calculate the conc at the times indicated ? in the table
+
+## Data Set #1
+
+```{julia}
+df = DataFrame([
+(0,	missing),
+(0.5,	18.10),
+(1,	16.37),
+(3,	10.98),
+(6,	6.02),
+(8,	4.04),
+(12,	1.81),
+(2,	missing),
+(4,	missing),
+(18,	missing)
+], [:time, :conc]);
+df1 = copy(df)
+
+A = 1000
+t1 = 0.5
+Cₜ₁ = only(df[df.time .== t1, :conc])
+
+t2 = 1
+Cₜ₂ = only(df[df.time .== t2, :conc])
+
+tₕ, th_lat = th_latex(Cₜ₁, t1, Cₜ₂, t2, "mg/L")
+k, k_lat = k_latex(tₕ)
+C₀, C₀_lat = c0_latex(Cₜ₁, k, t1, "mg/L")
+df_new, latexstrs = ct_miss_latex(df, C₀, k, "mg/L")
+lstr, AUC = trapz_auc(df_new.time, df_new.conc)
+Cl, cl_lat = cl_auc_latex(A, AUC, "L/hr")
+vd, vd_lat = vd_cl_latex(Cl, k, "L")
+plt = data(df_new) * mapping(:time => "Time (h)", :conc => "Concentration (mg/L)") * visual(ScatterLines)
+
+display(table(df1))
+display(md"### Half-life")
+display(th_lat)
+display(md"### Elimination rate constant")
+display(k_lat)
+display(md"### Determining initial conc")
+display(C₀_lat)
+display(md"### Determining unknown conc")
+display.(latexstrs)
+display(md"### AUC calculation using trapezoidal method")
+display(lstr)
+display(md"### Clearance")
+display(cl_lat)
+display(md"### Volume of Distribution")
+display(vd_lat)
+display(md"### Concentration-Time Profile (log scale)")
+draw(plt; axis = (; yscale = log10))
+```
+
+## Data Set #2
+
+```{julia}
+df = DataFrame(
+[
+(0, missing)
+(0.5, 16.37)
+(1, 13.41)
+(3, 6.02)
+(6, 1.81)
+(8, 0.82)
+(12, 0.16)
+(2, missing)
+(4, missing)
+(18, missing)
+], [:time, :conc]
+)
+df1 = copy(df)
+
+A = 1000
+t1 = 0.5
+Cₜ₁ = only(df[df.time .== t1, :conc])
+
+t2 = 1
+Cₜ₂ = only(df[df.time .== t2, :conc])
+
+tₕ, th_lat = th_latex(Cₜ₁, t1, Cₜ₂, t2, "mg/L")
+k, k_lat = k_latex(tₕ)
+C₀, C₀_lat = c0_latex(Cₜ₁, k, t1, "mg/L")
+df_new, latexstrs = ct_miss_latex(df, C₀, k, "mg/L")
+lstr, AUC = trapz_auc(df_new.time, df_new.conc)
+Cl, cl_lat = cl_auc_latex(A, AUC, "L/hr")
+vd, vd_lat = vd_cl_latex(Cl, k, "L")
+plt = data(df_new) * mapping(:time => "Time (h)", :conc => "Concentration (mg/L)") * visual(ScatterLines)
+
+display(table(df1))
+display(md"### Half-life")
+display(th_lat)
+display(md"### Elimination rate constant")
+display(k_lat)
+display(md"### Determining initial conc")
+display(C₀_lat)
+display(md"### Determining unknown conc")
+display.(latexstrs)
+display(md"### AUC calculation using trapezoidal method")
+display(lstr)
+display(md"### Clearance")
+display(cl_lat)
+display(md"### Volume of Distribution")
+display(vd_lat)
+display(md"### Concentration-Time Profile (log scale)")
+draw(plt; axis = (; yscale = log10))
+```
+
+## Data Set #3
+
+```{julia}
+df = DataFrame(
+[
+(0, missing)
+(0.5, 19.02)
+(1, 18.10)
+(3, 14.82)
+(6, 10.98)
+(8, 8.99)
+(12, 6.02)
+(2, missing)
+(4, missing)
+(18, missing)
+], [:time, :conc]
+)
+df1 = copy(df)
+
+A = 1000
+t1 = 0.5
+Cₜ₁ = only(df[df.time .== t1, :conc])
+
+t2 = 1
+Cₜ₂ = only(df[df.time .== t2, :conc])
+
+tₕ, th_lat = th_latex(Cₜ₁, t1, Cₜ₂, t2, "mg/L")
+k, k_lat = k_latex(tₕ)
+C₀, C₀_lat = c0_latex(Cₜ₁, k, t1, "mg/L")
+df_new, latexstrs = ct_miss_latex(df, C₀, k, "mg/L")
+lstr, AUC = trapz_auc(df_new.time, df_new.conc)
+Cl, cl_lat = cl_auc_latex(A, AUC, "L/hr")
+vd, vd_lat = vd_cl_latex(Cl, k, "L")
+plt = data(df_new) * mapping(:time => "Time (h)", :conc => "Concentration (mg/L)") * visual(ScatterLines)
+
+display(table(df1))
+display(md"### Half-life")
+display(th_lat)
+display(md"### Elimination rate constant")
+display(k_lat)
+display(md"### Determining initial conc")
+display(C₀_lat)
+display(md"### Determining unknown conc")
+display.(latexstrs)
+display(md"### AUC calculation using trapezoidal method")
+display(lstr)
+display(md"### Clearance")
+display(cl_lat)
+display(md"### Volume of Distribution")
+display(vd_lat)
+display(md"### Concentration-Time Profile (log scale)")
+draw(plt; axis = (; yscale = log10))
+```
+
+## Data Set #4
+
+```{julia}
+df = DataFrame(
+[
+(0, missing)
+(0.5, 12.1306)
+(1, 7.3576)
+(3, 0.9957)
+(6, 0.0496)
+(8, 0.0067)
+(12, 0.0001)
+(2, missing)
+(4, missing)
+(18, missing)
+], [:time, :conc]
+)
+df1 = copy(df)
+
+A = 1000
+t1 = 0.5
+Cₜ₁ = only(df[df.time .== t1, :conc])
+
+t2 = 1
+Cₜ₂ = only(df[df.time .== t2, :conc])
+
+tₕ, th_lat = th_latex(Cₜ₁, t1, Cₜ₂, t2, "mg/L")
+k, k_lat = k_latex(tₕ)
+C₀, C₀_lat = c0_latex(Cₜ₁, k, t1, "mg/L")
+df_new, latexstrs = ct_miss_latex(df, C₀, k, "mg/L")
+lstr, AUC = trapz_auc(df_new.time, df_new.conc)
+Cl, cl_lat = cl_auc_latex(A, AUC, "L/hr")
+vd, vd_lat = vd_cl_latex(Cl, k, "L")
+plt = data(df_new) * mapping(:time => "Time (h)", :conc => "Concentration (mg/L)") * visual(ScatterLines)
+
+display(table(df1))
+display(md"### Half-life")
+display(th_lat)
+display(md"### Elimination rate constant")
+display(k_lat)
+display(md"### Determining initial conc")
+display(C₀_lat)
+display(md"### Determining unknown conc")
+display.(latexstrs)
+display(md"### AUC calculation using trapezoidal method")
+display(lstr)
+display(md"### Clearance")
+display(cl_lat)
+display(md"### Volume of Distribution")
+display(vd_lat)
+display(md"### Concentration-Time Profile (log scale)")
+draw(plt; axis = (; yscale = log10))
+```
+
+## Data Set #5
+
+```{julia}
+df = DataFrame(
+[
+(0, missing)
+(0.5, 1.81)
+(1, 1.64)
+(3, 1.10)
+(6, 0.60)
+(8, 0.40)
+(12, 0.18)
+(2, missing)
+(4, missing)
+(18, missing)
+], [:time, :conc]
+)
+df1 = copy(df)
+
+A = 100
+t1 = 0.5
+Cₜ₁ = only(df[df.time .== t1, :conc])
+
+t2 = 1
+Cₜ₂ = only(df[df.time .== t2, :conc])
+
+tₕ, th_lat = th_latex(Cₜ₁, t1, Cₜ₂, t2, "mg/L")
+k, k_lat = k_latex(tₕ)
+C₀, C₀_lat = c0_latex(Cₜ₁, k, t1, "mg/L")
+df_new, latexstrs = ct_miss_latex(df, C₀, k, "mg/L")
+lstr, AUC = trapz_auc(df_new.time, df_new.conc)
+Cl, cl_lat = cl_auc_latex(A, AUC, "L/hr")
+vd, vd_lat = vd_cl_latex(Cl, k, "L")
+plt = data(df_new) * mapping(:time => "Time (h)", :conc => "Concentration (mg/L)") * visual(ScatterLines)
+
+display(table(df1))
+display(md"### Half-life")
+display(th_lat)
+display(md"### Elimination rate constant")
+display(k_lat)
+display(md"### Determining initial conc")
+display(C₀_lat)
+display(md"### Determining unknown conc")
+display.(latexstrs)
+display(md"### AUC calculation using trapezoidal method")
+display(lstr)
+display(md"### Clearance")
+display(cl_lat)
+display(md"### Volume of Distribution")
+display(vd_lat)
+display(md"### Concentration-Time Profile (log scale)")
+draw(plt; axis = (; yscale = log10))
+```
+
+## Data Set #6
+
+```{julia}
+df = DataFrame(
+[
+(0,missing)
+(0.5,0.1341)
+(1,0.0899)
+(3,0.0181)
+(6,0.0016)
+(8,0.0003)
+#(12,0.0000)
+(2,missing)
+(4,missing)
+(18, missing)
+], [:time, :conc]
+)
+
+A = 10
+t1 = 0.5
+Cₜ₁ = only(df[df.time .== t1, :conc])
+
+t2 = 1
+Cₜ₂ = only(df[df.time .== t2, :conc])
+
+tₕ, th_lat = th_latex(Cₜ₁, t1, Cₜ₂, t2, "mg/L")
+k, k_lat = k_latex(tₕ)
+C₀, C₀_lat = c0_latex(Cₜ₁, k, t1, "mg/L")
+df_new, latexstrs = ct_miss_latex(df, C₀, k, "mg/L")
+lstr, AUC = trapz_auc(df_new.time, df_new.conc)
+Cl, cl_lat = cl_auc_latex(A, AUC, "L/hr")
+vd, vd_lat = vd_cl_latex(Cl, k, "L")
+plt = data(df_new) * mapping(:time => "Time (h)", :conc => "Concentration (mg/L)") * visual(ScatterLines)
+
+display(table(df1))
+display(md"### Half-life")
+display(th_lat)
+display(md"### Elimination rate constant")
+display(k_lat)
+display(md"### Determining initial conc")
+display(C₀_lat)
+display(md"### Determining unknown conc")
+display.(latexstrs)
+display(md"### AUC calculation using trapezoidal method")
+display(lstr)
+display(md"### Clearance")
+display(cl_lat)
+display(md"### Volume of Distribution")
+display(vd_lat)
+display(md"### Concentration-Time Profile (log scale)")
+draw(plt; axis = (; yscale = log10))
+```
+
+## Data Set #7
+
+```{julia}
+df = DataFrame(
+[
+(0, missing)
+(0.5, 5.64)
+(1, 4.78)
+(3, 2.45)
+(6, 0.90)
+(8, 0.46)
+(12, 0.12)
+(2, missing)
+(4, missing)
+(18, missing)
+], [:time, :conc]
+)
+
+A = 100
+t1 = 0.5
+Cₜ₁ = only(df[df.time .== t1, :conc])
+
+t2 = 1
+Cₜ₂ = only(df[df.time .== t2, :conc])
+
+tₕ, th_lat = th_latex(Cₜ₁, t1, Cₜ₂, t2, "mg/L")
+k, k_lat = k_latex(tₕ)
+C₀, C₀_lat = c0_latex(Cₜ₁, k, t1, "mg/L")
+df_new, latexstrs = ct_miss_latex(df, C₀, k, "mg/L")
+lstr, AUC = trapz_auc(df_new.time, df_new.conc)
+Cl, cl_lat = cl_auc_latex(A, AUC, "L/hr")
+vd, vd_lat = vd_cl_latex(Cl, k, "L")
+plt = data(df_new) * mapping(:time => "Time (h)", :conc => "Concentration (mg/L)") * visual(ScatterLines)
+
+display(table(df1))
+display(md"### Half-life")
+display(th_lat)
+display(md"### Elimination rate constant")
+display(k_lat)
+display(md"### Determining initial conc")
+display(C₀_lat)
+display(md"### Determining unknown conc")
+display.(latexstrs)
+display(md"### AUC calculation using trapezoidal method")
+display(lstr)
+display(md"### Clearance")
+display(cl_lat)
+display(md"### Volume of Distribution")
+display(vd_lat)
+display(md"### Concentration-Time Profile (log scale)")
+draw(plt; axis = (; yscale = log10))
+```
+
+## Data Set #8
+
+```{julia}
+df = DataFrame(
+[
+(0, missing)
+(0.5, 29.63)
+(1, 21.95)
+(3, 6.61)
+(6, 1.09)
+(8, 0.33)
+(12, 0.03)
+(2, missing)
+(4, missing)
+(18, missing)
+], [:time, :conc]
+)
+
+A = 1000
+t1 = 0.5
+Cₜ₁ = only(df[df.time .== t1, :conc])
+
+t2 = 1
+Cₜ₂ = only(df[df.time .== t2, :conc])
+
+tₕ, th_lat = th_latex(Cₜ₁, t1, Cₜ₂, t2, "mg/L")
+k, k_lat = k_latex(tₕ)
+C₀, C₀_lat = c0_latex(Cₜ₁, k, t1, "mg/L")
+df_new, latexstrs = ct_miss_latex(df, C₀, k, "mg/L")
+lstr, AUC = trapz_auc(df_new.time, df_new.conc)
+Cl, cl_lat = cl_auc_latex(A, AUC, "L/hr")
+vd, vd_lat = vd_cl_latex(Cl, k, "L")
+plt = data(df_new) * mapping(:time => "Time (h)", :conc => "Concentration (mg/L)") * visual(ScatterLines)
+
+display(table(df1))
+display(md"### Half-life")
+display(th_lat)
+display(md"### Elimination rate constant")
+display(k_lat)
+display(md"### Determining initial conc")
+display(C₀_lat)
+display(md"### Determining unknown conc")
+display.(latexstrs)
+display(md"### AUC calculation using trapezoidal method")
+display(lstr)
+display(md"### Clearance")
+display(cl_lat)
+display(md"### Volume of Distribution")
+display(vd_lat)
+display(md"### Concentration-Time Profile (log scale)")
+draw(plt; axis = (; yscale = log10))
+```

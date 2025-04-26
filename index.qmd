@@ -1,0 +1,17 @@
+---
+title: "Pharmacometrics"
+---
+
+A list of all weekwise answers to practice problems.
+
+\ 
+
+## Practice Problems
+- [Week 1](./questions/01-math-pp.html)
+- [Week 2](./questions/02-one-comp-IVBolus-pp.html)
+- [Week 3](./questions/03-p1-mem-perm-pp.html)
+
+## Practice Answers
+- [Week 1](./docs/Week-1/01-math-pp-ans.html)
+- [Week 2](./docs/Week-2/02-one-comp-IVBolus-pp-ans.html)
+- [Week 3](./docs/Week-3/03-p1-mem-perm-pp.html)

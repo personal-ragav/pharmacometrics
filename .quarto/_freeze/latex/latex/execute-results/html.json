@@ -1,0 +1,16 @@
+{
+  "hash": "f5cc1fed705a44dae7ce32843142d4e3",
+  "result": {
+    "engine": "julia",
+    "markdown": "---\ntitle: \"Latex\"\n\nexecute:\n  error: false\n  echo: true\njulia:\n    execflags: [\"--project=.\"]\ndate: today\ndate-format: \"DD-MMM-YYYY\"\nauthor: \"Ragav Rajan S\"\nformat:\n  html:\n    self-contained-math: true\n    anchor-sections: true\n    theme: default\n    toc: true\n    toc-depth: 1\n    toc-expand: 1\n    toc-location: left\n    toc-title: Contents\n    number-sections: true\n    code-summary: Show/Hide Code\n    code-overflow: wrap\n    code-tools:\n      caption: Download tutorial\n      source: false\nfig-format: svg\nfig-width: 8\nfig-height: 6\nself-contained: true\n---\n\n\n\n**Import necessary packages**\n\n\n::: {#2 .cell execution_count=1}\n``` {.julia .cell-code}\nusing Latexify\nusing LaTeXStrings\nusing DataFramesMeta\nusing SummaryTables\nusing Markdown\nusing Format\nusing Unitful, UnitfulLatexify\nusing CairoMakie, AlgebraOfGraphics\nLatexify.set_default(; starred=true)\ninclude(joinpath(@__DIR__, \"..\", \"base-functions\", \"base_functions.jl\"))\n```\n\n::: {.cell-output .cell-output-display execution_count=1}\n```\ntable (generic function with 2 methods)\n```\n:::\n:::\n\n\n\n::: {#4 .cell execution_count=1}\n``` {.julia .cell-code}\nfull = 100\ni = 1\nlst = Vector{LaTeXString}()\n\nwhile full > 100 - 95\n  full = full / 2\n  num_l = latexify(full)\n  num_l1 = latexify(100-full)\n  push!(lst, \"C => C/2 after $i half-life => \" * num_l * \"% remains (\" * num_l1 * \"% eliminated)\")\n  i += 1\nend\n\ndisplay.(lst);\nmd\"From the above calculation, 95% of the drug is eliminated after 5 lives.\"\n```\n\n::: {.cell-output .cell-output-display .cell-output-markdown}\nC => C/2 after 1 half-life => $50.0$% remains ($50.0$% eliminated)\n:::\n\n::: {.cell-output .cell-output-display .cell-output-markdown}\nC => C/2 after 2 half-life => $25.0$% remains ($75.0$% eliminated)\n:::\n\n::: {.cell-output .cell-output-display .cell-output-markdown}\nC => C/2 after 3 half-life => $12.5$% remains ($87.5$% eliminated)\n:::\n\n::: {.cell-output .cell-output-display .cell-output-markdown}\nC => C/2 after 4 half-life => $6.25$% remains ($93.75$% eliminated)\n:::\n\n::: {.cell-output .cell-output-display .cell-output-markdown}\nC => C/2 after 5 half-life => $3.125$% remains ($96.875$% eliminated)\n:::\n\n::: {.cell-output .cell-output-display execution_count=1}\n```{=html}\n<div class=\"markdown\"><p>From the above calculation, 95&#37; of the drug is eliminated after 5 lives.</p>\n</div>\n```\n:::\n:::\n\n\n",
+    "supporting": [
+      "latex_files"
+    ],
+    "filters": [],
+    "includes": {
+      "include-in-header": [
+        "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js\" integrity=\"sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==\" crossorigin=\"anonymous\"></script>\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js\" integrity=\"sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==\" crossorigin=\"anonymous\" data-relocate-top=\"true\"></script>\n<script type=\"application/javascript\">define('jquery', [],function() {return window.jQuery;})</script>\n"
+      ]
+    }
+  }
+}
