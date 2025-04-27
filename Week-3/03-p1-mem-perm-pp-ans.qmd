@@ -1,0 +1,178 @@
+---
+title: "03-p1-mem-perm-pp-ans"
+execute:
+  error: false
+  echo: true
+engine: julia
+date: today
+date-format: "DD-MMM-YYYY"
+author: "Ragav Rajan S"
+format:
+  html:
+    self-contained-math: true
+    anchor-sections: true
+    theme: default
+    toc: true
+    toc-depth: 1
+    toc-expand: 1
+    toc-title: Contents
+    number-sections: true
+    code-summary: Show/Hide Code
+    code-overflow: wrap
+    code-tools:
+      caption: Download tutorial
+      source: false
+fig-format: svg
+fig-width: 8
+fig-height: 6
+self-contained: true
+code-fold: true
+---
+
+**Import necessary packages**
+```{julia}
+using DataFramesMeta
+using SummaryTables
+using Latexify
+using Markdown
+using CairoMakie, AlgebraOfGraphics
+```
+
+# Question 1
+
+London Marriott, an intern in Pharmaceutical R&D at Drugs-R-Us, a major pharmaceutical company, was directed to carry out a series of studies on the intestinal absorption of the new lead compound (DRUXX2) in the Drugs-R-Us anti-aging program. London carried out the studies as directed, but did not finish the project because she was called to Washington D.C. to help Hillary Clinton settle a trade dispute with the French government over perfume imports. Therefore, it falls to you, the Pharm.D. in charge of clinical development, to interpret her notebooks.
+
+In carrying out absorption rate studies, the following data were collected. These data should be plotted in AlgebraOfGraphics.
+
+```{julia}
+conc = [5, 10, 30, 50, 100, 150, 200]
+rate = [1.25, 2.2, 4.6, 5.9, 7.4, 8.1, 8.5]
+
+df = DataFrame(conc = conc, concu = "g/mL", abs_rate=rate, abs_rateu = "mg/min")
+simple_table(df)
+```
+
+# Question 2
+
+The data below describe the absorption of a drug from the gastrointestinal tract. What can you conclude about the mechanism of the absorption and the order of the transport process and why?
+
+```{julia}
+conc = [1, 2, 5, 15, 30]
+abs_rate = [20, 40, 100, 300, 600]
+
+df = DataFrame(conc = conc, concu = "μg/mL", abs_rate=abs_rate, abs_rateu = "μg/min")
+simple_table(df)
+```
+
+```{julia}
+lst = Vector{Markdown.MD}()
+M(str::String) = Markdown.parse(str)
+
+n = nrow(df)
+concu = only(unique(df[!, :concu]))
+abs_rateu = only(unique(df[!, :abs_rateu]))
+
+for i in 1:n
+	if i < n
+		conc1 = df[i, :conc]
+		conc2 = df[i+1, :conc]
+		conc_rat = conc2/conc1
+		abs_rate1 = df[i, :abs_rate]
+		abs_rate2 = df[i+1, :abs_rate]
+		abs_rate_rat = abs_rate2 / abs_rate1
+
+
+		push!(lst, Markdown.parse("From **$conc1** to **$conc2** $concu (**$(conc_rat)x**), absorption rate changes from **$abs_rate1** to **$abs_rate2** $abs_rateu (**$(abs_rate_rat)x**)"))
+	end
+end
+
+display.(lst);
+
+plt = data(df) * mapping(:conc, :abs_rate) * visual(ScatterLines)
+
+display(draw(plt; figure=(;title = "conc vs abs rate"), axis = (; width = 400, height = 360))) # 
+
+display(M("This suggests that **rate of absorption is directly proportional to concentration**. That is:"))
+display(@latexify Rate = 𝑘 * Conc env=:equation)
+
+display(M("This is the hallmark of a **first-order process**, where the rate depends linearly on the concentration."))
+
+display(M("### Conclusion:"))
+display(M("**Mechanism**: Likely **passive diffusion** (which often follows first-order kinetics unless saturated)."))
+display(M("**Order of transport process**: **First-order kinetics**, because the rate of absorption increases proportionally with concentration."))
+```
+
+# Question 3
+
+A new antibiotic tablet was developed and administered to a group of volunteers.
+
+- 40% of the orally administered dose was excreted unchanged in the feces.
+- In another study, it was shown that the drug was not excreted in the bile, and that the extraction ratio of the drug by the liver was 70%.
+- Calculate the bioavailability of this drug in this dosage form. (Assume that no gut wall metabolism exists).
+
+**Bioavailability Calculation**
+
+Given:
+- 40% of the orally administered dose is excreted unchanged in feces  
+  $$
+  F_{\text{abs}} = 1 - 0.40 = 0.60
+  $$
+
+- Hepatic extraction ratio:  
+  $$
+  E_H = 0.70
+  $$
+- No gut wall metabolism
+
+**Bioavailability Formula**:
+$$
+F = F_{\text{abs}} \times (1 - E_H)
+$$
+
+**Substitute the values**:
+$$
+F = 0.60 \times (1 - 0.70) = 0.60 \times 0.30 = 0.18
+$$
+
+**Final Answer**:
+$$
+\boxed{F = 0.18 \quad \text{or} \quad 18\%}
+$$
+
+
+# Question 4
+
+1. Two membrane characteristics that will increase the rate of absorption of a drug across the membrane are an increase in <ins>**surface area**</ins> or a decrease in <ins>**membrane thickness**</ins>.
+
+2. Two drug characteristics that will decrease its rate of absorption across the membrane are a decrease in <ins>**molecular size**</ins> or an increase in <ins>**drug lipophilicity**</ins>.
+
+3. Proteins and phospholipids each have both hydrophilic and lipophilic characteristics. This is why they are known as <ins>**amphipathic**</ins> molecules.
+
+4. If a molecule has a relatively low octanol to water partition coefficient, you would expect its passive diffusion across a membrane to be <ins>**slow**</ins>.
+
+5. The anatomical feature of the small intestine that most enhances its surface area is the <ins>**villi**</ins>.
+
+6. The barrier to absorption in the small intestine is the <ins>**mucus layer**</ins>.
+
+7. The cell type with the "leakiest" tight junction is the <ins>**brain capillary**</ins>.
+
+8. When a molecule crosses through the cell, it is considered to go through the <ins>**transcellular**</ins> route across the barrier.
+
+9. When a molecule goes between cells, it is considered to go through the <ins>**paracellular**</ins> route across the barrier.
+
+# Question 5
+
+| No. | Description                                                                      | Answer                       |
+|-----|----------------------------------------------------------------------------------|------------------------------|
+| 1   | Can cause an increase in membrane viscosity                                      | i. Cholesterol               |
+| 2   | The nonpolar portion of a phospholipid                                           | h. Fatty acid                |
+| 3   | Absorption rate is directly proportional to concentration at the absorption site | c. Passive diffusion         |
+| 4   | Is dependent upon convection                                                     | b. Paracellular transport    |
+| 5   | Decreases intracellular concentrations of drug                                   | j. P-glycoprotein            |
+| 6   | Repelled by water                                                                | a. Hydrophobic               |
+| 7   | Increases intracellular concentrations of drug                                   | f. P-glycoprotein inhibitor  |
+| 8   | Capillary endothelial cells                                                      | e. Blood-brain barrier       |
+| 9   | As pH increases, lipophilicity increases                                         | d. Weak acid                 |
+| 10  | As pH decreases, ionization decreases                                            | g. Weak base                 |
+
+

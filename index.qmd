@@ -7,18 +7,20 @@ A list of all weekwise answers to practice problems.
 \ 
 
 ## Tutorials 
-- [Basic Math for Pharmacokinetics](./tutorials/01-math-for-pk.html)
-- [One Compartment IV Bolus](./tutorials/02-one-compIVBolus.html)
-- [Membrane Permeability, Rate of Distribution, and Extent of Distribution](./tutorials/03-membrane-permeability-rate-extent-distribution.html)
 
+<li><a href="./tutorials/01-math-for-pk.html" target="_blank">Basic Math for Pharmacokinetics</a></li>
+<li><a href="./tutorials/02-one-compIVBolus.html" target="_blank">One Compartment IV Bolus</a></li>
+<li><a href="./tutorials/03-p1-mem-perm-pp.html" target="_blank">Membrane Permeability, Rate of Distribution, and Extent of Distribution</a></li>
 
 ## Practice Problems
-- [Basic Math for Pharmacokinetics](./questions/01-math-pp.html)
-- [One Compartment IV Bolus](./questions/02-one-comp-IVBolus-pp.html)
-- [Membrane Permeability, Rate of Distribution, and Extent of Distribution](./questions/03-p1-mem-perm-pp.html)
-- [Drug Distribution](./questions/03-p2-distribution-pp.html)
+
+<li><a href="./questions/01-math-pp.html" target="_blank">Basic Math for Pharmacokinetics</a></li>
+<li><a href="./questions/02-one-comp-IVBolus-pp.html" target="_blank">One Compartment IV Bolus</a></li>
+<li><a href="./questions/03-p1-mem-perm-pp.html" target="_blank">Membrane Permeability, Rate of Distribution, and Extent of Distribution</a></li>
+<li><a href="./questions/03-p2-distribution-pp.html" target="_blank">Drug Distribution</a></li>
 
 ## Practice Answers
-- [Basic Math for Pharmacokinetics](./docs/Week-1/01-math-pp-ans.html)
-- [One Compartment IV Bolus](./docs/Week-2/02-one-comp-IVBolus-pp-ans.html)
-- [Membrane Permeability, Rate of Distribution, and Extent of Distribution](./docs/Week-3/03-p1-mem-perm-pp.html)
+
+<li><a href="./docs/Week-1/01-math-pp-ans.html" target="_blank">Basic Math for Pharmacokinetics</a></li>
+<li><a href="./docs/Week-2/02-one-comp-IVBolus-pp-ans.html" target="_blank">One Compartment IV Bolus</a></li>
+<li><a href="./docs/Week-3/03-p1-mem-perm-pp-ans.html" target="_blank">Membrane Permeability, Rate of Distribution, and Extent of Distribution</a></li>
