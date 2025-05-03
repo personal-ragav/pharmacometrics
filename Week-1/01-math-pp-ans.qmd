@@ -16,7 +16,6 @@ format:
     toc: true
     toc-depth: 1
     toc-expand: 1
-    toc-location: left
     toc-title: Contents
     number-sections: true
     code-summary: Show/Hide Code
