@@ -1,0 +1,340 @@
+---
+title: "03-p1-mem-perm-pp-ans"
+execute:
+  error: false
+  echo: true
+engine: julia
+date: today
+date-format: "DD-MMM-YYYY"
+author: "Ragav Rajan S"
+format:
+  html:
+    embed-resources: true
+    self-contained-math: true
+    anchor-sections: true
+    theme: default
+    toc: true
+    toc-depth: 1
+    toc-expand: 1
+    toc-title: Contents
+    number-sections: true
+    code-summary: Show/Hide Code
+    code-overflow: wrap
+    code-tools:
+      caption: Download tutorial
+      source: true
+fig-format: svg
+fig-width: 8
+fig-height: 6
+self-contained: true
+---
+
+# Question 1
+
+##  (a) Diffusion Rate-Limited CNS Distribution
+The distribution of many compounds into the central nervous system (CNS) is diffusion rate-limited. Consider the two weak acid drugs below:
+
+| Drug   | pKa  | K<sub>o/w</sub> (unionized form) |
+|--------|------|-------------------------------|
+| Drug A | 3.2  | 0.12                          |
+| Drug B | 8.4  | 0.07                          |
+
+Which drug will reach equilibrium between plasma and the CNS the fastest? Explain your answer using appropriate equation(s) and calculations, assuming a physiological pH of 7.4.
+
+**Answer:**
+
+We are comparing two weak acid drugs and assessing **which one will reach equilibrium with the CNS fastest**, given that **diffusion across the blood-brain barrier (BBB)** is the rate-limiting step.
+
+**Key Concept:**
+Only the **unionized** form of a drug can cross lipid membranes (like the BBB). The amount of unionized drug at physiological pH can be calculated using the **Henderson-Hasselbalch equation**.
+
+### Step 1: Calculate Unionized Fraction
+
+For **weak acids**, the Henderson-Hasselbalch equation is:
+
+$$
+\text{pH} = \text{pKa} + \log \left( \frac{[\text{A}^-]}{[\text{HA}]} \right)
+$$
+
+Rearranged to find the unionized fraction:
+
+$$
+\text{Fraction unionized} = \frac{1}{1 + 10^{\text{pH} - \text{pKa}}}
+$$
+
+
+**Drug A** (pKa = **3.2**): Only **0.0063%** is unionized
+$$
+\text{Fraction unionized} = \frac{1}{1 + 10^{7.4 - 3.2}} = \frac{1}{1 + 10^{4.2}} \approx \frac{1}{1 + 15848.93} \approx 6.31 \times 10^{-5}
+$$
+
+
+**Drug B** (pKa = **8.4**): Only **90.9%** is unionized
+
+$$
+\text{Fraction unionized} = \frac{1}{1 + 10^{7.4 - 8.4}} = \frac{1}{1 + 10^{-1}} = \frac{1}{1 + 0.1} = 0.909
+$$
+
+### **Step 2**: Consider Lipophilicity
+
+| Drug   | Unionized Fraction | $K_{o/w}$(unionized form) | Effective Membrane Permeability |
+|--------|---------------------|-------------------------------|----------------------------------|
+| Drug A | 0.0063%             | 0.12                          | Very low (due to tiny unionized fraction) |
+| Drug B | 90.9%               | 0.07                          | High (due to large unionized fraction)    |
+
+Even though Drug A has a slightly higher partition coefficient, its extremely low unionized fraction makes it **inefficient at crossing the BBB**.
+
+### **Conclusion**
+
+**Drug B** will reach equilibrium between plasma and the CNS **faster** than Drug A because:
+
+- It has a **much higher fraction in the unionized form** at physiological pH (7.4).
+- This **more than compensates** for its slightly lower $K_{o/w}$.
+
+$$
+\text{Drug B reaches CNS equilibrium faster due to higher unionized fraction at physiological pH.}
+$$
+
+
+##  (b) Perfusion vs. Diffusion Rate-Limited Distribution
+Explain the distinction between **perfusion rate-limited** and **diffusion rate-limited** distribution of drugs.
+
+**Answer:**
+
+| Feature                     | Perfusion Rate-Limited Distribution            | Diffusion Rate-Limited Distribution             |
+|----------------------------|------------------------------------------------|-------------------------------------------------|
+| **Limiting Factor**        | Blood flow to the tissue                      | Permeability of tissue membranes (diffusion)    |
+| **Primary Barrier**        | Perfusion (blood supply)                      | Tissue membrane or cellular barrier             |
+| **Tissue Type**            | Highly perfused (e.g., liver, kidney, heart)  | Poorly perfused or with tight junctions (e.g., brain, fat) |
+| **Drug Characteristics**   | Small, lipophilic drugs                       | Large, polar, or hydrophilic drugs              |
+| **Distribution Speed**     | Fast with high perfusion                      | Slow, even with good perfusion                  |
+| **Example Drugs**          | Nitrous oxide, ethanol                        | Monoclonal antibodies, insulin                  |
+| **Equilibrium Dependency** | Depends on blood flow rate                    | Depends on ability to cross membranes           |
+
+## (c) Kidney Perfusion Rate and Equilibrium Time
+
+The kidneys have a perfusion rate of 4 mL/min/mL. Calculate the time required to reach **50%** of distribution equilibrium for a drug with an equilibrium distribution ratio of **200**, assuming **perfusion rate-limited distribution**.
+
+What is the definition of the **equilibrium distribution ratio**?
+
+**Answer**:
+
+In **perfusion rate-limited distribution**, the **equilibrium distribution ratio** refers to the ratio of drug concentration in the tissue to that in plasma **once equilibrium is reached** and there is no net movement of drug between compartments.
+
+**Perfusion Rate**: $P = 4$ mL/min/mL
+
+**Equi-dist ratio**: $K_p = 200$
+
+**First Order Distribution Rate constant** $K_t$
+
+$K_t = P/K_P = 4 / 200 = 0.02$
+
+**Tissue-dist half life** $t_{{1/2}dist}$
+
+$t_{{1/2}dist} = 0.693 / K_t = 0.693 / 0.02 =$ **34.65 min**
+
+# Question 2
+
+## (a) Kidney Distribution Equilibrium Time
+
+A drug has an equilibrium distribution ratio between blood and kidney tissue of **35**. The perfusion rate of the kidneys is **4 mL/min/mL** of tissue.
+
+* How long will it take for the drug to reach **75%** of distribution equilibrium in the kidneys if distribution is **perfusion rate-limited**?
+
+**Perfusion Rate**: $P = 4$ mL/min/mL
+
+**Equi-dist ratio**: $K_p = 35$
+
+**First Order Distribution Rate constant** $K_t$
+
+$K_t = P/K_P = 4 / 200 = 0.114$
+
+**Tissue-dist half life** $t_{{1/2}dist}$
+
+$t_{{1/2}dist} = 0.693 / K_t = 0.693 / 0.114 = 6.063$ min
+
+**Tissue-dist (3/4) life** $t_{{3/4}dist}$
+
+$t_{{3/4}dist} = 2 * t_{{1/2}dist} =$ **12.12 min**
+
+## (b) Diffusion Rate-Limited Distribution
+
+What is meant by **diffusion rate-limited distribution**?
+
+* **Diffusion rate-limited distribution** refers to a pharmacokinetic situation where the rate at which a drug enters tissue from the bloodstream is limited by the drug's ability to cross biological membranes, rather than by blood flow. 
+* This typically occurs with drugs that are **large, polar, hydrophilic, or ionized**, which do not easily diffuse across lipid-rich cell membranes.
+* As a result, even if blood perfusion is adequate, the drug's entry into tissues such as the brain, muscle, or fat may be **slow**. 
+* Tissues protected by barriers like the **blood-brain barrier** often show diffusion-limited behavior due to tight junctions and low membrane permeability. 
+* In such cases, **drug concentrations in tissue rise gradually**, potentially delaying therapeutic effects.
+* This is in contrast to perfusion rate-limited distribution, where membrane permeability is high and the rate-limiting step is blood flow.
+
+
+
+
+
+# Question 3
+
+The following information was given for a synthetic monocyclic β-lactam antibiotic (Drug Y) in the **2002 American Hospital Formulary Service Drug Information®**:
+
+* Drug Y exhibits **linear, dose-independent pharmacokinetics**.
+* Drug Y is **poorly absorbed** from the GI tract, with a bioavailability of** <1%** following oral administration.
+* Drug Y is **widely distributed** into body tissues and fluids following **IM or IV administration**.
+* The apparent volume of distribution of Drug Y averages **1.1-2.2 L/kg**.
+* Drug Y is **60-80% bound to plasma proteins** in healthy adults.
+* Total body clearance averages **0.91-1.68 mL/min/kg**, with renal clearance of **0.59-1.03 mL/min/kg**.
+
+Assume a **70 kg** individual and use the average values for calculations.
+
+
+## (a) Plasma vs. Tissue Binding — Drug Y
+
+Is Drug Y more tightly bound to **serum proteins** or **tissue proteins**? Explain your reasoning.
+
+**Answer**:
+
+* Plasma protein binding = 60–80% → average = **70%**
+* Apparent Volume of Distribution (Vd) = 1.1–2.2 L/kg → average = **1.65 L/kg**
+* For a 70 kg individual:  
+  Vd ≈ 1.65 L/kg × 70 kg = **115.5 L**
+
+**Analysis:**
+
+- A large Vd suggests that the drug extensively distributes **out of the plasma** and into **tissues**.
+- If Drug Y were highly bound only to **plasma proteins**, it would mostly remain in the vascular compartment, resulting in a **low Vd** (~5 L).
+- Since Vd is >100 L, this implies significant tissue distribution, meaning Drug Y likely binds more extensively to **tissue proteins**.
+
+**Conclusion:**
+
+- Drug Y is more tightly bound to **tissue proteins** than to serum proteins. 
+- This is indicated by its large volume of distribution (~115.5 L in a 70 kg individual), which suggests extensive distribution into tissues, beyond what would be expected if it were mainly bound to plasma proteins.
+
+## (b) Effect of Plasma Albumin Levels on Drug Half-Life
+
+Assume all plasma protein binding is due to Drug Y binding to albumin.
+
+* What would happen to the half-life of Drug Y if a patient had a very low albumin level, reducing Drug Y plasma protein binding to 30%?
+
+**Assumptions:**
+
+- Normal plasma protein binding: 70% → free fraction (fu) = 30%
+- Low albumin scenario: binding drops to 30% → fu = 70%
+- Clearance (Cl) = average = **1.295 mL/min/kg**
+- Volume of distribution (Vd) = average = **1.65 L/kg**
+- Half-life equation:  
+  $$
+  t_{1/2} = \frac{0.693 \times V_d}{Cl}
+  $$
+
+**Normal Conditions:**
+
+- Cl = 0.001295 L/min/kg  
+- Half-life:
+  $$
+  t_{1/2} = \frac{0.693 \times 1.65}{0.001295} \approx 884.1\ \text{minutes}
+  $$
+
+**Low Albumin Conditions:**
+
+- Assuming Cl increases ~2× due to higher free drug: Cl ≈ 0.00259 L/min/kg
+- Assuming Vd increases ~1.2×: Vd ≈ 1.98 L/kg
+- New half-life:
+  $$
+  t_{1/2} = \frac{0.693 \times 1.98}{0.00259} \approx 529.4\ \text{minutes}
+  $$
+
+**Conclusion:**
+
+- If plasma albumin levels fall and Drug Y binding drops to 30%, the half-life would **decrease**. 
+- This is because a greater fraction of unbound drug would be available for renal clearance, increasing clearance faster than any increase in volume of distribution, thereby shortening the drug’s half-life.
+
+# Question 4
+
+Sophas Pharmaceuticals, Inc. recently received **FDA approval** for its new HMG-CoA reductase inhibitor, **SophaStatin**. The drug’s pharmacokinetic properties include:
+
+- **IV Bolus Data**:
+    - **Half-life**: 14 hours
+    - **Volume of Distribution**: 381 L
+    - **Lipophilic compound**
+    - **95-99% bound** to plasma proteins (mainly albumin)
+    - **47% renally excreted as unchanged drug**; the remainder is **metabolized (CYP3A4)**
+    - **No biliary clearance**
+- **Oral Dose Data**:
+    - **Bioavailability**: 14%
+    - **40% of dose excreted in feces**
+    - **T_max**: 1-4 hours
+    - **Absorption by passive diffusion**
+
+## (a) Fraction Unbound and Plasma vs. Tissue Binding
+
+- Calculate the fraction of SophaStatin unbound in tissue.
+- Is the drug more highly bound in plasma or tissue?
+
+**Answer**:
+
+- Plasma protein binding = 95–99% → average = **97%**
+- Fraction unbound in plasma:  
+  $$
+  f_u = 1 - 0.97 = 0.03
+  $$
+
+- Volume of distribution (Vd) = **381 L**
+- Assume a 70 kg adult → Vd = **5.44 L/kg**
+- Tissue volume $V_T$ ≈ **39 L** 
+- Plasma volume $V_p$ ≈ **3 L** 
+
+**Using the equation:**
+$$
+V_d = V_p + \left( \frac{f_u}{f_{uT}} \right) \cdot V_T
+$$
+
+
+Substituting values:
+$$
+381 = 3 + \left( \frac{0.03}{f_{uT}} \right) \cdot 39
+\Rightarrow f_{uT} = \frac{0.03}{9.692} \approx 0.0031
+$$
+
+
+**Conclusion:**
+
+- Fraction unbound in tissue $f_{uT}$ ≈ **0.0031** (or **0.31%**)
+- Fraction unbound in plasma $f_u$ = **3%**
+
+**SophaStatin is more tightly bound in tissues than in plasma.** Although it is already highly bound in plasma (97%), it is even more extensively bound in tissues (~99.7%).
+
+## (b) Liver Distribution Half-Life
+
+The equilibrium concentration of SophaStatin in the liver is **5 ng/mL**, while that in plasma is **0.01 ng/mL**. The volume of liver tissue is **1700 mL**.
+
+* What is the **distribution half-life** of SophaStatin into the liver?
+
+**Answer:**
+
+- Volume of distribution $V_d$ = **381 L**
+- Tissue volume $V_T$ ≈ **1.7 L** 
+- Plasma volume $V_p$ ≈ **3 L** 
+- Liver blood flow $Q$ ≈ **1.35 L/min**
+
+**Using the equation:**
+$$
+V_d = V_T \cdot  K_p + V_p
+$$
+
+Therefore $K_p$ :
+
+$$
+K_p = (V_d - V_p) / V_T = (381 - 3) / 1.7 = 222.35
+$$
+
+For $K_T$
+
+$$
+K_T = Q / (V_T \cdot K_p) = 1.35 / (1.7 * 222.35) = 0.00357
+$$
+
+**Tissue-dist half life** $t_{{1/2}dist}$
+
+$t_{{1/2}dist} = 0.693 / K_T = 0.693 / 0.00357 = 194.04$ min
+
+
+
