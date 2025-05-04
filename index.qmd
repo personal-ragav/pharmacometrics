@@ -18,6 +18,8 @@ A list of all weekwise answers to practice problems.
 <li><a href="./questions/02-one-comp-IVBolus-pp.html" target="_blank">One Compartment IV Bolus</a></li>
 <li><a href="./questions/03-p1-mem-perm-pp.html" target="_blank">Membrane Permeability, Rate of Distribution, and Extent of Distribution</a></li>
 <li><a href="./questions/03-p2-distribution-pp.html" target="_blank">Drug Distribution</a></li>
+<li><a href="./questions/06-elimination-clearance-pp.html" target="_blank">Elimination Clearance</a></li>
+<li><a href="./questions/07.1-hepatic-clearance-pp.html" target="_blank">Hepatic Clearance</a></li>
 
 ## Practice Answers
 
