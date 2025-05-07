@@ -1,0 +1,413 @@
+---
+title: "07.1-hepatic-clearance-pp-ans"
+execute:
+  error: false
+  echo: true
+engine: julia
+date: today
+date-format: "DD-MMM-YYYY"
+author: "Ragav Rajan S"
+format:
+  html:
+    embed-resources: true
+    self-contained-math: true
+    anchor-sections: true
+    theme: default
+    toc: true
+    toc-depth: 1
+    toc-expand: 1
+    toc-title: Contents
+    number-sections: true
+    code-summary: Show/Hide Code
+    code-overflow: wrap
+    code-tools:
+      caption: Download tutorial
+      source: true
+fig-format: svg
+fig-width: 8
+fig-height: 6
+---
+
+# Question 1
+
+## 1.a.
+**Approximately 10% of an intravenous dose of tolbutamide is excreted unchanged in the urine. If the fraction unbound in the plasma is 0.068, and the total body clearance is 1,260 ml/hour, calculate the hepatic intrinsic clearance of free tolbutamide.**
+
+**Answer:**
+
+- **Fraction unbound in plasma**: $f_u$ = 0.068
+- **Total body clearance**: $CL_H$ = 1.2 L/h
+- **Hepatic Blood Flow**: $Q_H$ = 1.35 L/min = 81 L/h
+
+Using the well-stirred model:
+
+$$
+CL_H = \frac{f_u \cdot CL_{int}}{Q_H + f_u \cdot CL_{int}}
+$$
+
+Rearranged to solve for $CL_{int}$:
+
+$$
+CL_{int} = \frac{CL_H \cdot Q_H}{f_u \cdot (Q_H - CL_H)}
+$$
+
+$$
+CL_{int} = \frac{1.2 \cdot 81}{0.068 \cdot (81 - 1.2)} = 17.91 
+$$
+
+**Hepatic intrinsic Clearance**: $CL_{int}$ = 17.91 L/h
+
+## 1.b. 
+**Is tolbutamide a high or low clearance drug? Explain your answer.**
+
+**Answer:**
+
+To determine whether **tolbutamide** is a **high** or **low clearance drug**, we compare its **hepatic clearance (CL<sub>H</sub>)** to the **hepatic blood flow (Q<sub>H</sub>)**.
+
+**Given:**
+
+- Hepatic clearance: $CL_H = 1.2 \, \text{L/h}$
+- Hepatic blood flow: $Q_H = 81 \, \text{L/h}$
+
+**Extraction Ratio (E):**
+
+$$
+E = \frac{CL_H}{Q_H} = \frac{1.2}{81} \approx 0.0148
+$$
+
+**Classification:**
+
+- **High clearance drug**: $E > 0.7$
+- **Intermediate clearance drug**: $0.3 < E < 0.7$
+- **Low clearance drug**: $E < 0.3$
+
+Since $E \approx 0.0148$, **tolbutamide is a low clearance drug**.
+
+**Explanation:**
+
+A low extraction ratio means that the liver removes only a small portion of the drug from the blood during each pass. This implies:
+
+- Hepatic clearance is limited by **enzyme activity (CL<sub>int</sub>)** and **protein binding (f<sub>u</sub>)**.
+- Changes in **enzyme activity** or **plasma protein binding** will significantly affect drug clearance.
+
+# Question 2
+
+A pharmacokinetic study of an investigational anti-anxiety agent, Re-LAX™, was carried out in normal human subjects. The bioavailability of Re-LAX™ was 20%. Its free fraction in plasma was 0.10. Its apparent volume of distribution is 4.3 L/kg. The amount of Re-LAX™ excreted in the urine unchanged was negligible.
+
+**Answer:**
+
+- Oral bioavailability, $F = 0.20$
+- Free fraction in plasma: $f_u = 0.10$
+- Apparent volume of distribution: $V_d = 4.3 \, \text{L/kg}$
+- Negligible urinary excretion
+- Complete absorption and no gut wall metabolism
+- Assume hepatic blood flow $Q_H = 81 \, \text{L/h}$
+
+## 2a. 
+Assuming that an oral dose is completely absorbed from the gastrointestinal lumen, and that there is no metabolism in the gut wall, what was the hepatic clearance?
+
+**Step 1:** Estimate Hepatic Extraction Ratio
+Since oral bioavailability is reduced only by hepatic first-pass effect under our assumptions:
+
+$$
+F = 1 - E_H \Rightarrow E_H = 1 - F = 1 - 0.20 = 0.80
+$$
+
+**Step 2:** Calculate Hepatic Clearance
+
+$$
+CL_H = E_H \cdot Q_H = 0.80 \cdot 81 = \boxed{64.8 \, \text{L/h}}
+$$
+
+
+**Hepatic Clearance** $CL_H$ = **64.8 L/h**
+
+## 2b. 
+Calculate the hepatic intrinsic clearance of Re-LAX™.
+
+$$
+CL_{int} = \frac{CL_H \cdot Q_H}{f_u \cdot (Q_H - CL_H)}
+$$
+
+$$
+CL_{int} = \frac{64.8 \cdot 0.8}{0.1 \cdot (81 - 64.8)} = 31.9
+$$
+
+**Hepatic intrinsic Clearance**: $CL_{int}$ = **31.9 L/h**
+
+## 2c.
+Because of the extreme agitation of some of the study participants, it was decided to co-administer Re-LAX™ with phenobarbital, a sedative. However, phenobarbital is a known inducer of drug-metabolizing enzymes. What effect will this have on the hepatic clearance of drug X? Why?
+
+Phenobarbital is a known **inducer of drug-metabolizing enzymes**, such as cytochrome P450. Enzyme induction leads to an increase in the **hepatic intrinsic clearance $(CL\_int)$** of drugs metabolized by the liver.
+
+**Characteristics of Re-LAX™:**
+
+- **Oral bioavailability (F)** = 0.20 → low
+- **Negligible renal excretion**
+- **High hepatic extraction ratio drug** (E ≈ 0.80)
+- **Hepatic clearance is flow-limited**, not capacity-limited
+
+**Pharmacokinetic Principle:**
+
+For **high extraction ratio drugs**:
+$$
+CL_H \approx Q_H
+$$
+
+This means:
+
+- Hepatic clearance is determined primarily by **liver blood flow**
+- Changes in enzyme activity (e.g., from phenobarbital) **do not significantly alter clearance**
+
+
+**Phenobarbital will have little to no effect on the hepatic clearance of Re-LAX™.**  
+Although it increases enzyme activity, Re-LAX™ is a high-extraction drug, and its clearance is limited by hepatic blood flow, not by metabolic capacity.
+
+# Question 3
+
+A single 500 mg intravenous dose of an antibiotic was given to a generation-X female (age 21 years, creatinine clearance 150 ml/min, weight 52 kg, height 5’8”) and the total body clearance was 0.2 L/min. The volume of distribution was 2.0 L/kg. The total amount excreted in the urine following an intravenous dose was equal to 2% of the dose. The free fraction was 0.25. The liver is the sole organ responsible for the metabolism of the drug and when the drug was given orally, 70% of the oral dose entered the hepatic portal circulation. Assume that the liver blood flow was 1350 ml/min in this patient.
+
+## 3a.
+Calculate the half-life of the drug in this patient.
+
+**Answer:**
+
+### Half-life Calculation
+
+To calculate the half-life $t_{1/2}$, we use the formula:
+
+$$
+t_{1/2} = \frac{0.693 \times V_d}{Cl}
+$$
+
+**Given:**
+
+- Volume of distribution $V_d = 2.0 \, \text{L/kg}$
+- Body weight = 52 kg  
+$$
+V_d = 2.0 \times 52 = 104 \, \text{L}
+$$
+
+- Clearance 
+
+$$
+Cl = 0.2 \, \text{L/min}
+$$
+
+**Substitute into the formula:**
+
+$$
+t_{1/2} = \frac{0.693 \times 104}{0.2} = \frac{72.072}{0.2} = 360.36 \, \text{min}
+$$
+
+**Convert to hours:**
+
+$$
+t_{1/2} = \frac{360.36}{60} \approx \boxed{6 \, \text{hours}}
+$$
+
+
+## 3b.
+**Calculate the expected oral bioavailability of the drug in this patient.**
+
+**Answer:**
+
+## 3c.
+**What are the possible mechanisms of renal excretion and how do you know?**
+
+**Answer:**
+
+**Patient Parameters:**
+
+- Dose: 500 mg IV
+- Total Body Clearance: 0.2 L/min
+- Volume of Distribution: 104 L (2.0 L/kg × 52 kg)
+- Free Fraction (fu): 0.25
+- Creatinine Clearance: 150 mL/min
+- Urinary Excretion: 2% of dose (10 mg)
+- Liver: Sole organ of metabolism
+
+**Observations:**
+
+- **Low Renal Excretion** (2% of dose), despite:
+  - High renal function (Cl_cr = 150 mL/min)
+  - Moderate free fraction (fu = 0.25)
+
+**Possible Mechanisms of Renal Excretion:**
+
+1. **Glomerular Filtration (Passive)**
+
+   - Only the unbound drug (fu = 0.25) is filtered.
+   - Low urinary excretion suggests limited filtration or extensive reabsorption.
+
+2. **Tubular Reabsorption**
+
+   - Likely, since filtered drug is not retained in urine.
+   - May be due to lipophilicity or specific transport mechanisms.
+
+3. **Active Tubular Secretion**
+
+   - **Unlikely**, as it typically leads to higher urinary excretion.
+   - No evidence of active transport involvement.
+
+**Conclusion:**
+
+The drug is likely excreted renally via **passive glomerular filtration**, with **extensive tubular reabsorption**. **Active secretion is not involved**, given the minimal urinary recovery.
+
+
+
+## 3d.
+**If the clearance of this compound were to double, what effect would this have on the volume of distribution of the compound?**
+
+**Answer:**
+
+**Relationship Between Clearance and Volume of Distribution**
+$$
+t_{1/2} = \frac{0.693 \cdot V_d}{CL}
+$$
+
+
+Where:
+- $t_{1/2}$ = elimination half-life
+- $V_d$ = volume of distribution
+- $CL$ = clearance
+
+**Key Insight:**
+
+- **Clearance (CL)** and **Volume of Distribution (Vd)** are **independent** pharmacokinetic parameters.
+- Changing clearance does **not affect** volume of distribution directly.
+
+**Final Answer:**
+
+**Doubling the clearance would have no effect on the volume of distribution.**
+
+
+
+## 3e.
+**Would the hepatic clearance of this drug be markedly affected by an enzyme-inducing agent that doubles VMAX for this drug? Explain.**
+
+**Answer:**
+
+**Step 1: Determine Hepatic Clearance (CL_H)**
+
+We are given:
+
+- Total body clearance (CL) = 0.2 L/min
+- Renal excretion = 2% of dose → Renal clearance (CL_R) ≈ 0.02 × 0.2 L/min = 0.004 L/min
+- Hepatic clearance (CL_H) = CL - CL_R = 0.2 - 0.004 = **0.196 L/min**
+
+**Step 2: Hepatic Extraction Ratio (E_H)**
+
+Liver blood flow (Q) = 1350 mL/min = 1.35 L/min  
+Hepatic extraction ratio (E_H) = CL_H / Q = 0.196 / 1.35 ≈ **0.145**  
+
+**Step 3: Interpretation of Extraction Ratio**
+
+An extraction ratio **E_H < 0.3** indicates a **low-extraction drug**.  
+For such drugs, hepatic clearance is governed by:
+
+$$
+CL_H = \frac{f_u \cdot V_{MAX}}{K_m + f_u \cdot C}
+$$
+
+Where:
+
+- $f_u$: free fraction (0.25)
+- $V_{MAX}$: maximum metabolic rate
+- $K_m$: Michaelis constant
+- $C$: drug concentration
+
+**Step 4: Effect of Enzyme Induction**
+
+Since the drug has **low hepatic extraction**, its clearance is **capacity-limited (enzyme-limited)** and **sensitive to changes in V_MAX**.  
+Doubling V_MAX would **increase CL_H**, as the liver’s capacity to metabolize the drug increases. Therefore, **hepatic clearance would be markedly affected** by an enzyme-inducing agent.
+
+**Conclusion**
+
+Yes, the hepatic clearance of this low-extraction, capacity-limited drug would be **markedly affected** by an enzyme-inducing agent that doubles V_MAX.
+
+
+
+## 3f.
+**If this patient develops congestive heart failure that reduces the hepatic blood flow to 1 L/min but does not affect hepatic intrinsic clearance or renal clearance, what would the new hepatic clearance be in this patient?**
+
+**Answer:**
+
+**Step 1: Given Information**
+
+- Original hepatic blood flow (Q) = 1.35 L/min
+- New hepatic blood flow due to CHF = **1.0 L/min**
+- Hepatic intrinsic clearance (CL_int) remains unchanged
+- Renal clearance is unaffected
+- Free fraction (f_u) = 0.25
+- Total body clearance previously = 0.2 L/min
+- Hepatic clearance previously (CL_H) ≈ 0.196 L/min
+- Hepatic extraction ratio (E_H) previously = 0.145
+
+**Step 2: Estimate Intrinsic Clearance**
+
+Using the well-stirred model:
+
+$$
+CL_H = \frac{Q \cdot f_u \cdot CL_{int}}{Q + f_u \cdot CL_{int}}
+$$
+
+Rearranged to solve for $f_u \cdot CL_{int}$:
+
+$$
+f_u \cdot CL_{int} = \frac{CL_H \cdot Q}{Q - CL_H}
+$$
+
+Substitute values:
+
+$$
+f_u \cdot CL_{int} = \frac{0.196 \cdot 1.35}{1.35 - 0.196} = \frac{0.2646}{1.154} \approx 0.2293 \, \text{L/min}
+$$
+
+**Step 3: Calculate New Hepatic Clearance with Reduced Q**
+
+$$
+CL_H' = \frac{Q_{new} \cdot f_u \cdot CL_{int}}{Q_{new} + f_u \cdot CL_{int}} = \frac{1.0 \cdot 0.2293}{1.0 + 0.2293} = \frac{0.2293}{1.2293} \approx \textbf{0.1865 L/min}
+$$
+
+**Conclusion**
+
+With hepatic blood flow reduced to **1.0 L/min** due to congestive heart failure, the **new hepatic clearance** would be approximately:
+
+$$
+\boxed{0.187 \, \text{L/min}}
+$$
+
+This is a **slight reduction** from the original 0.196 L/min, which is expected for a **low-extraction drug**, since hepatic clearance is relatively **insensitive to changes in blood flow**.
+
+
+## 3g.
+**Should the dose be changed if an inhibitor of renal secretion was added to the regimen? Explain.**
+
+**Answer:**
+
+**Step 1: Renal Contribution to Total Clearance**
+
+- Total body clearance (CL) = 0.2 L/min
+- Renal excretion = 2% of total dose → CL_renal ≈ 0.004 L/min
+- Hepatic clearance (CL_H) = 0.196 L/min
+- Renal secretion accounts for a **minor** fraction of total clearance
+
+**Step 2: Impact of Inhibiting Renal Secretion**
+
+If renal secretion is inhibited:
+
+- Renal clearance may decrease further (but already very low)
+- Total body clearance would decrease **only slightly**
+- Drug elimination still primarily via **hepatic metabolism** (≈98%)
+
+**Step 3: Clinical Implication**
+
+Since the renal route contributes negligibly to overall clearance:
+
+- Inhibiting renal secretion would have **minimal impact** on drug levels
+- Therefore, **no significant dose adjustment is needed**
+
+**Conclusion**
+
+**No, the dose does not need to be changed** if an inhibitor of renal secretion is added, because renal excretion is responsible for only **2%** of total clearance. The drug is primarily eliminated via **hepatic metabolism**, so renal changes are not clinically significant in this case.

@@ -1,0 +1,1780 @@
+---
+title: "Elimination & Clearance Concepts Problem Set"
+params: 
+  answers: "visible"
+execute:
+  error: false
+  echo: true
+julia:
+    execflags: ["--project=."]
+date: today
+date-format: "DD-MMM-YYYY"
+author:
+  - Anisha Gonsalves
+code-annotations: hover
+format:
+  html:
+    include-in-header:
+      text: |
+        <style>
+          .header-container {
+            width: 100%;
+          }
+          .logo {
+            display: block;
+            width: 150px;
+            margin-left: -2.5%;
+          }
+        </style>
+        <link rel = "icon" href="../logo/html-logo.jpg" sizes="32x32" />
+    include-before-body:
+      text: |
+        <div class="header-container">
+          <img src= "../logo/sophas-logo.png" width="240" height="90">
+        </div>
+    self-contained-math: true
+    anchor-sections: true
+    theme: default
+    toc: true
+    toc-depth: 4
+    toc-expand: 2
+    toc-location: left
+    toc-title: Contents
+    number-sections: true
+    code-summary: Show/Hide Code
+    code-overflow: wrap
+    code-tools:
+      caption: Download tutorial
+      source: false
+fig-format: svg
+fig-width: 8
+fig-height: 6
+self-contained: true
+---
+
+```{julia}
+using DataFramesMeta
+using CairoMakie
+using AlgebraOfGraphics
+```
+
+# “Thinking Inside the Box”
+
+:::{.callout appearance="minimal"}
+
+Given:
+
+![Figure 1: A well-mixed system with inflow and two outflows](images/1.png)
+
+- Flow in = 8 L/min
+- Flow out 2 = 5 L/min
+- Flow out 1 = 3 L/min
+- Volume = 30 L
+- Initial amount (A₀) = 600 mg
+
+The system volume (30 liters) is well-mixed. The flow into the system contains no drug. The initial amount of drug X in the system is 600 mg.
+
+:::
+
+ a. What is the clearance of drug X in the above system? Give a definition of clearance using the relationship between rate and concentration. Is the clearance constant with time? Briefly explain.
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+Clearance is defined as the theoretical volume of body fluid containing drug (i.e. that
+fraction of apparent volume of distribution) from which the drug is completely removed in a
+given period of time.
+
+$\small{\text{Clearance} = \dfrac{\text{Rate of elimination}}{\text{Concentartion}}}$
+
+The rate of elimination depends on the outflow rate and the concentration in the tank. 
+Since the incoming flow has no drug, only the concentration in the tank matters for removal.
+
+$\small{\text{Rate of removal} = \text{Total flow out} \times \text{Concentration in tank} = 8 \, \text{L/min} \times \dfrac{A(t)}{30 \, \text{L}}}$
+
+Thus,
+
+$\small{\text{Clearance} = \frac{8 \times \frac{A(t)}{30}}{\frac{A(t)}{30}} = 8 \, \text{L/min}}$
+
+Yes, the clearance is constant because the total outflow (8 L/min) is constant, 
+and drug removal depends solely on this outflow rate. The drug concentration in the tank will change over time, 
+but the clearance remains fixed at 8 L/min
+
+:::
+
+------------------------------------------------------------------------------------------
+
+ b. What is the rate of elimination from the system when 400 mg of the drug has been eliminated? 
+ Is the rate of elimination of drug from this system constant with time? 
+ What does the rate of elimination depend upon?
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{\text{Rate of elimination} = \text{Flow out} \times \text{Concentration in tank} = 8 \, \text{L/min} \times \frac{A(t)}{30 \, \text{L}}}$
+
+$\small{\text{Remaining drug} = 600 - 400 = 200 \, \text{mg}}$
+
+```{julia}
+# Given
+a_remaining = 200.0  # mg
+cl  = 8 # L/min
+c = a_remaining / 30.0  # mg/L
+
+# roe
+roe = c * cl  
+
+println("Rate of elimination: $(round(roe, digits = 2)) mg/min")
+```
+
+No, the rate of elimination is not constant with time. 
+It depends on the concentration of the drug in the tank, which decreases over time as the drug is eliminated. 
+
+:::
+
+------------------------------------------------------------------------------------------ 
+
+ c. If flow out 1 represents elimination by the kidney and flow out 2 represents the elimination of drug X by liver metabolism, determine the following:
+
+- The rate of metabolism when 500 mg of the drug has been eliminated
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{\text{Rate of metabolism} = \text{Flow out} \times \text{Concentration in tank} = 5 \, \text{L/min} \times \frac{A(t)}{30 \, \text{L}}}$
+
+$\small{\text{Remaining drug} = 600 - 500 = 100 \, \text{mg}}$
+
+```{julia}
+# Given
+a_remaining = 100.0  # mg
+cl  = 5 # L/min ,flow out 2 = metabolism
+c = a_remaining / 30.0  # mg/L
+
+# roe
+roe = c * cl  
+
+println("Rate of metabolism: $(round(roe, digits = 2)) mg/min")
+```
+
+:::
+
+------------------------------------------------------------------------------------------
+
+- The rate of renal excretion at the time point equal to one half-life of the drug
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{\text{Rate of renal excretion} = \text{Flow out} \times \text{Concentration in tank} = 3 \, \text{L/min} \times \frac{A(t)}{30 \, \text{L}}}$
+
+$\small{\text{Remaining drug} = \dfrac{600}{0.5} = 300 \ \text{mg}}$, since one half-life of the drug is passed.
+
+```{julia}
+# Given
+a_remaining = 300.0  # mg
+cl  = 3 # L/min ,flow out 2 = metabolism
+c = a_remaining / 30.0  # mg/L
+
+# roe
+roe = c * cl  
+
+println("Rate of renal excretion: $(round(roe, digits = 2)) mg/min")
+```
+
+:::
+
+------------------------------------------------------------------------------------------
+
+ d. Estimate the half-life of drug X in the above system. 
+ Would the half-life change if the volume of distribution decreased to 15 liters? 
+ Would the half-life change if the metabolic clearance doubled? 
+ If the half-life changes for either of these situations, calculate the new half-life.
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{t_{1/2} = \dfrac{0.693 \times V_d}{CL}}$
+
+```{julia}
+# Given
+v_d = 30 # L
+cl = 8 # L/min
+
+# half-life
+t_half = 0.693 * v_d / cl
+
+println("The  half-life of drug X in the above system: $(round(t_half, digits = 2)) min")
+```
+
+- If $\small{V_d = 15\ L}$
+
+```{julia}
+# Given
+v_d = 15 # L
+cl = 8 # L/min
+
+# half-life
+t_half = 0.693 * v_d / cl
+
+println("The half-life with Vd = $v_d L: $(round(t_half, digits = 2)) min")
+```
+
+  Yes, the half-life would decrease, as it is directly proportional to the volume of distribution.
+
+- If metabolic clearance doubled, i.e, $\small{CL_{\text{metabolic}} = 5 \times 2 \Rightarrow 10\ L/min}$
+
+  $\small{CL_{\text{total}} = CL_{\text{renal}} + CL_{\text{metabolic}} \Rightarrow 13\ L/min}$
+
+```{julia}
+# Given
+v_d = 15 # L
+cl = 13 # L/min
+
+# half-life
+t_half = 0.693 * v_d / cl
+
+println("The half-life with Vd = $v_d L: $(round(t_half, digits = 2)) min")
+```
+
+  Yes, the half-life would decrease, as it is indirectly proportional to clearance (clearance increases, half-life decreases).
+
+:::
+
+------------------------------------------------------------------------------------------
+
+ e. Given the above system, quantitatively draw a concentration versus time profile on semilog graph paper. 
+ (N.B. cover at least three half-lives with the scale on the x-axis)
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+- For a one compartment model: $\small{C(t) = C_0 \times e^{-kt}}$
+
+- $\small{C_0 = \frac{A_0}{V_d}}$
+
+```{julia}
+# Given
+a = 600 # mg
+vd = 30 # L
+
+c0 = a / vd
+println("C₀: $c0 mg/L")
+```
+
+- $\small{k = \frac{CL}{V_d}}$
+
+```{julia}
+# Given
+cl = 8 # L/min
+vd = 30 # L
+
+k = cl / vd
+
+println("k: $(round(k, digits = 2)) min")
+```
+
+- $\small{t_{1/2} = \frac{0.693 \times V_d}{CL}}$
+
+```{julia}
+# Given
+cl = 8 # L/min
+vd = 30 # L
+
+t_half =  0.693 * vd / cl
+
+println("k: $(round(t_half, digits = 2)) min")
+```
+
+To cover atleast 3 half-lives, let's consider the time points:
+
+```{julia}
+# Given
+t_half = 2.6
+k = 0.27
+c0 = 20
+
+# Time points
+time = t_half .* [1, 2, 3, 4, 5] 
+
+# Concentration points
+conc = round.(c0 .* exp.(-k .* time), digits = 2)
+
+# DataFrame for plotting 
+df = DataFrame(Time = time, Concentration = conc)
+
+# Plot concentration vs time profile
+plt = data(df) * mapping(:Time, :Concentration) * visual(ScatterLines)
+
+draw(
+    plt,
+    axis=(;
+        xlabel = "Time (hr)",
+        ylabel = "Concentration (mg/L)",
+        yscale = log10,
+        title = "Semilog Concentration-Time Profile"
+    )
+)
+```
+
+:::
+
+------------------------------------------------------------------------------------------
+
+# “Organ Clearance”
+
+:::{.callout appearance="minimal"}
+
+Given the following scheme:
+
+![Figure 2: A box representing a well-mixed system with flow in and one flow out path](images/2.png)
+
+The blood flow into this organ is 1000 ml/min (Qin). A constant concentration of 5 mg/liter enters the organ (Cin). The sole mechanism of elimination by this organ is metabolism, and, in a one hour period at steady state, the organ metabolizes 90 milligrams of the drug. The blood flow rates into and out of the organ are equal. The volume of distribution of this drug is 75 liters.
+
+:::
+
+ a. What is the extraction ratio of this eliminating organ?
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+Clearance is the volume of fluid from which drug is completely removed per unit time.
+
+$\small{\text{Clearance} = \dfrac{\text{Rate of elimination}}{\text{Concentration}}}$
+
+Since it's a well-mixed tank:
+
+$\small{\text{Rate of elimination} = 8 , \text{L/min} \times \dfrac{A(t)}{30 , \text{L}}}$
+
+Then:
+
+$\small{\text{Clearance} = \frac{8 \cdot \frac{A(t)}{30}}{\frac{A(t)}{30}} = 8 , \text{L/min}}$
+
+Yes, the clearance is constant with time because flow rates are constant and independent of drug concentration.
+
+:::
+
+------------------------------------------------------------------------------------------
+
+ b. What is the steady state concentration leaving the organ to return to the blood pool? (i.e., Cout)
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+:::
+
+------------------------------------------------------------------------------------------
+
+ c. Calculate the organ clearance. Given that this organ clearance represents the only means of elimination from the body, calculate the half-life.
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+:::
+
+------------------------------------------------------------------------------------------
+
+ d. What would be the rate of metabolism if the concentration entering the organ was 25 mg/liter?
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+:::
+
+------------------------------------------------------------------------------------------
+
+ e. Calculate the change in organ clearance when the volume of distribution of the drug doubles to 150 liters.
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+:::
+
+------------------------------------------------------------------------------------------
+
+# Four Practice Problems (Thinking Inside the Box)
+
+## Problem 1
+
+:::{.callout appearance="minimal"}
+
+![Figure 3: A box representing a well-mixed system with flow in and two flow out paths](images/3.png)
+
+Given:
+
+- Flow in = 8 L/min
+- Flow out 2 = 5 L/min
+- Flow out 1 = 3 L/min
+- Volume = 30 L
+- Initial amount (A₀) = 600 mg
+
+The system volume (30 liters) is well-mixed. The flow into the system contains no drug. The initial amount of drug A in the system is 600 mg.
+
+:::
+
+ a. What is the clearance of drug A in the above system? Give a definition of clearance using the relationship between rate and concentration. Is the clearance constant with time? Briefly explain.
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+:::
+
+------------------------------------------------------------------------------------------
+
+ b. What is the rate of elimination from the system when 300 mg of the drug has been eliminated? Is the rate of elimination of drug from this system constant with time? What does the rate of elimination depend upon?
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+:::
+
+------------------------------------------------------------------------------------------
+
+ c. If flow out 1 represents elimination by the kidney and flow out 2 represents the elimination of drug A by liver metabolism, determine the following:
+
+- the total body clearance when there is complete liver failure.
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+:::
+
+------------------------------------------------------------------------------------------
+
+- the rate of metabolism when 500 mg of the drug has been eliminated (under normal liver function).
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+:::
+
+------------------------------------------------------------------------------------------
+
+ d. Estimate the half-life of drug A in the above system. Would the half-life change if the volume of distribution decreased to 10 liters? Would the half-life change if the renal clearance doubled? If the half-life changes for either of these situations, calculate the new half-life. If the half-life changes when the volume decreases, explain why.
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+:::
+
+------------------------------------------------------------------------------------------
+
+ e. Given the above system, quantitatively draw a concentration versus time profile on semilog graph paper. (cover at least three half-lives with the scale on the x-axis)
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+:::
+
+------------------------------------------------------------------------------------------
+
+## Problem 2
+
+:::{.callout appearance="minimal"}
+
+Given:
+
+![Figure 4: A box representing a well-mixed system with flow in and two flow out paths](images/4.png)
+
+- Flow in = 15 L/min
+- Flow out 2 = 10 L/min
+- Flow out 1 = 5 L/min
+- Volume = 100 L
+- Initial amount (A₀) = 1000 mg
+
+The system volume (100 liters) is well-mixed. The flow into the system contains no drug. The initial amount of drug B in the system is 1000 mg.
+
+:::
+
+ a. What is the clearance of drug B in the above system? Give a definition of clearance using the relationship between rate and concentration. Is the clearance constant with time? Briefly explain.
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+:::
+
+------------------------------------------------------------------------------------------
+
+ b. What is the rate of elimination from the system when 100 mg of the drug has been eliminated? Is the rate of elimination of drug from this system constant with time? What does the rate of elimination depend upon?
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+:::
+
+------------------------------------------------------------------------------------------
+
+ c. If flow out 1 represents elimination by the kidney and flow out 2 represents the elimination of drug B by liver metabolism, determine the following:
+
+- the total body clearance when there is complete renal failure.
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+:::
+
+------------------------------------------------------------------------------------------
+
+- the rate of metabolism when 750 mg of the drug has been eliminated (under normal liver function).
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+:::
+
+------------------------------------------------------------------------------------------
+
+ d. Estimate the half-life of drug B in the above system. Would the half-life change if the volume of distribution increased to 200 liters? Would the half-life change if the renal clearance doubled? If the half-life changes for either of these situations, calculate the new half-life.
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+:::
+
+------------------------------------------------------------------------------------------
+
+ e. Given the above system, quantitatively draw a concentration versus time profile on semilog graph paper. (cover at least three half-lives with the scale on the x-axis)
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+:::
+
+------------------------------------------------------------------------------------------
+
+## Problem 3
+
+:::{.callout appearance="minimal"}
+
+Given:
+
+![Figure 5: A box representing a well-mixed system with flow in and two flow out paths](images/5.png)
+
+- Flow in = 10 L/min
+- Flow out 2 = 9 L/min
+- Flow out 1 = 1 L/min
+- Volume = 10 L
+- Initial amount (A₀) = 100 mg
+
+The system volume (10 liters) is well-mixed. The flow into the system contains no drug. The initial amount of drug C in the system is 100 mg.
+
+:::
+
+ a. What is the clearance of drug C in the above system? Give a definition of clearance using the relationship between rate and concentration. Is the clearance constant with time? Briefly explain.
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+:::
+
+------------------------------------------------------------------------------------------
+
+ b. What is the rate of elimination from the system when 90 mg of the drug has been eliminated? Is the rate of elimination of drug from this system constant with time? What does the rate of elimination depend upon?
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+:::
+
+------------------------------------------------------------------------------------------
+
+ c. If flow out 1 represents elimination by the kidney and flow out 2 represents the elimination of drug C by liver metabolism, determine the following:
+
+- the total body clearance when there is complete liver failure.
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+:::
+
+------------------------------------------------------------------------------------------
+
+- the rate of renal excretion when 30 mg of the drug has been eliminated (under normal liver function).
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+:::
+
+------------------------------------------------------------------------------------------
+
+ d. Estimate the half-life of drug C in the above system. Would the half-life change if the volume of distribution decreased to 5 liters? Would the half-life change if the metabolic clearance doubled? If the half-life changes for either of these situations, calculate the new half-life.
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+:::
+
+------------------------------------------------------------------------------------------
+
+ e. Given the above system, quantitatively draw a concentration versus time profile on semilog graph paper. (cover at least three half-lives with the scale on the x-axis)
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+:::
+
+------------------------------------------------------------------------------------------
+
+## Problem 4
+
+:::{.callout appearance="minimal"}
+
+Given:
+
+![Figure 6: A box representing a well-mixed system with flow in and two flow out paths](images/6.png)
+
+- Flow in = 15 L/min
+- Flow out 2 = 10 L/min
+- Flow out 1 = 5 L/min
+- Volume = 500 L
+- Initial amount (A₀) = 1000 mg
+
+The system volume (500 liters) is well-mixed. The flow into the system contains no drug. The initial amount of drug D in the system is 1000 mg.
+
+:::
+
+ a. What is the clearance of drug D in the above system? Give a definition of clearance using the relationship between rate and concentration. Is the clearance constant with time? Briefly explain.
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+:::
+
+------------------------------------------------------------------------------------------
+
+ b. What is the rate of elimination from the system when 600 mg of the drug has been eliminated? Is the rate of elimination of drug from this system constant with time? What does the rate of elimination depend upon?
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+:::
+
+------------------------------------------------------------------------------------------
+
+ c. If flow out 1 represents elimination by the kidney and flow out 2 represents the elimination of drug D by liver metabolism, determine the following:
+
+- the total body clearance when there is complete renal failure.
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+:::
+
+------------------------------------------------------------------------------------------
+
+- the rate of metabolism when 500 mg of the drug has been eliminated (under normal liver function).
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+:::
+
+------------------------------------------------------------------------------------------
+
+ d. Estimate the half-life of drug D in the above system. Would the half-life change if the volume of distribution decreased to 50 liters? Would the half-life change if the metabolic clearance doubled? If the half-life changes for either of these situations, calculate the new half-life. Why did the half-life decrease when the volume decreased?
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+:::
+
+------------------------------------------------------------------------------------------
+
+ e. Given the above system, quantitatively draw a concentration versus time profile on semilog graph paper. (cover at least three half-lives with the scale on the x-axis)
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+:::
+
+------------------------------------------------------------------------------------------
+
+# Some Ideas About Organ Clearance
+
+:::{.callout appearance="minimal"}
+
+![Figure 7: A box representing a well-mixed system with flow in and one flow out path](images/7.png)
+
+**Considering the organ clearance scheme, answer the following questions:**
+
+:::
+
+## Section 1
+
+1. Calculate the extraction ratio if the Qin is 1 liter/min and the arterial concentration is 1 mg/L and the venous concentration is 0.5 mg/L.
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{E = \dfrac{C_{\text{a}} - C_{\text{v}}}{C_{\text{a}}}}$
+
+```{julia}
+# Given
+c_a = 1 # mg/L
+c_v = 0.5 # mg/L
+
+# Extraction ratio
+e = (c_a - c_v) / c_a
+
+println("Extraction ratio: $e")
+```
+
+:::
+
+------------------------------------------------------------------------------------------
+
+2. Calculate the organ clearance if the Qin is 1 liter/min and the arterial concentration is 1 mg/L and the venous concentration is 0.5 mg/L.
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{CL_{organ} = E \times Q_{in}}$
+
+```{julia}
+# Given 
+q = 1 # L/min
+c_a = 1 # mg/L
+c_v = 0.5 # mg/L
+
+# Extraction ratio
+e = (c_a - c_v) / c_a
+
+# Organ clearance
+cl = e * q
+
+println("Organ clearance: $cl L/min")
+```
+
+:::
+
+------------------------------------------------------------------------------------------
+
+3. Calculate the organ clearance if the Qin is 2 liter/min and the arterial concentration is 1 mg/L and the venous concentration is 0.5 mg/L.
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{CL_{organ} = E \times Q_{in}}$
+
+```{julia}
+# Given 
+q = 2 # L/min
+c_a = 1 # mg/L
+c_v = 0.5 # mg/L
+
+# Extraction ratio
+e = (c_a - c_v) / c_a
+
+# Organ clearance
+cl = e * q
+
+println("Organ clearance: $cl L/min")
+```
+
+:::
+
+------------------------------------------------------------------------------------------
+
+4. Calculate the organ clearance if the Qin is 1.5 liter/min and the arterial concentration is 1 mg/L and the venous concentration is 0.5 mg/L.
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{CL_{organ} = E \times Q_{in}}$
+
+```{julia}
+# Given 
+q = 1.5 # L/min
+c_a = 1 # mg/L
+c_v = 0.5 # mg/L
+
+# Extraction ratio
+e = (c_a - c_v) / c_a
+
+# Organ clearance
+cl = e * q
+
+println("Organ clearance: $cl L/min")
+```
+
+:::
+
+------------------------------------------------------------------------------------------
+
+5. Calculate the organ clearance if the Qin is 1 liter/min and the arterial concentration is 1 mg/L and the venous concentration is 0.9 mg/L.
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{CL_{organ} = E \times Q_{in}}$
+
+```{julia}
+# Given 
+q = 1 # L/min
+c_a = 1 # mg/L
+c_v = 0.9 # mg/L
+
+# Extraction ratio
+e = (c_a - c_v) / c_a
+
+# Organ clearance
+cl = e * q
+
+println("Organ clearance: $cl L/min")
+```
+
+:::
+
+------------------------------------------------------------------------------------------
+
+6. Calculate the organ clearance if the Qin is 1 liter/min and the arterial concentration is 1 mg/L and the venous concentration is 0.1 mg/L.
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{CL_{organ} = E \times Q_{in}}$
+
+```{julia}
+# Given 
+q = 1 # L/min
+c_a = 1 # mg/L
+c_v = 0.1 # mg/L
+
+# Extraction ratio
+e = (c_a - c_v) / c_a
+
+# Organ clearance
+cl = e * q
+
+println("Organ clearance: $cl L/min")
+```
+
+:::
+
+------------------------------------------------------------------------------------------
+
+7. Calculate the rate of elimination if the Qin is 1 liter/min and the arterial concentration is 1 mg/L and the venous concentration is 0.5 mg/L.
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{\text{Rate of Elimination} = Q_{\text{in}} \times (C_a - C_v)}$
+
+```{julia}
+# Given 
+q = 1 # L/min
+c_a = 1 # mg/L
+c_v = 0.5 # mg/L
+
+# ROE
+roe = q* (c_a - c_v)
+
+println("Rate of Elimination: $roe mg/min")
+```
+
+:::
+
+------------------------------------------------------------------------------------------
+
+8. Calculate the rate of elimination if the Qin is 2 liter/min and the arterial concentration is 1 mg/L and the venous concentration is 0.5 mg/L.
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{\text{Rate of Elimination} = Q_{\text{in}} \times (C_a - C_v)}$
+
+```{julia}
+# Given 
+q = 2 # L/min
+c_a = 1 # mg/L
+c_v = 0.5 # mg/L
+
+# ROE
+roe = q* (c_a - c_v)
+
+println("Rate of Elimination: $roe mg/min")
+```
+
+:::
+
+------------------------------------------------------------------------------------------
+
+9. Calculate the rate of elimination if the Qin is 0.5 liter/min and the arterial concentration is 1 mg/L and the venous concentration is 0.5 mg/L.
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{\text{Rate of Elimination} = Q_{\text{in}} \times (C_a - C_v)}$
+
+```{julia}
+# Given 
+q = 0.5 # L/min
+c_a = 1 # mg/L
+c_v = 0.5 # mg/L
+
+# ROE
+roe = q* (c_a - c_v)
+
+println("Rate of Elimination: $roe mg/min")
+```
+
+:::
+
+------------------------------------------------------------------------------------------
+
+10. Calculate the rate of elimination if the Qin is 1 liter/min and the arterial concentration is 2 mg/L and the venous concentration is 0.5 mg/L.
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{\text{Rate of Elimination} = Q_{\text{in}} \times (C_a - C_v)}$
+
+```{julia}
+# Given 
+q = 1 # L/min
+c_a = 2 # mg/L
+c_v = 0.5 # mg/L
+
+# ROE
+roe = q* (c_a - c_v)
+
+println("Rate of Elimination: $roe mg/min")
+```
+
+:::
+
+------------------------------------------------------------------------------------------
+
+11. Calculate the concentration entering the eliminating organ if the rate of elimination is 60 mg/hr, and the Qin is 1 liter/min and the Cout is 1 mg/L.
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{\text{Rate of Elimination} = Q_{\text{in}} \times (C_a - C_v)}$
+
+```{julia}
+# Given 
+q = 1 # L/min
+c_out = 1 # mg/L
+roe = 1 # mg/min
+
+# C_in
+c_in = roe / q + c_out
+
+println("Concentration entering the eliminating organ: $c_in mg/L")
+```
+
+:::
+
+------------------------------------------------------------------------------------------
+
+12. Calculate the concentration entering the eliminating organ if the rate of elimination is 60 mg/hr, and the Qin is 1 liter/min and the Cout is 0.5 mg/L.
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{\text{Rate of Elimination} = Q_{\text{in}} \times (C_a - C_v)}$
+
+```{julia}
+# Given 
+q = 1 # L/min
+c_out = 0.5 # mg/L
+roe = 1 # mg/min
+
+# C_in
+c_in = roe / q + c_out
+
+println("Concentration entering the eliminating organ: $c_in mg/L")
+```
+
+:::
+
+------------------------------------------------------------------------------------------
+
+13. Calculate the concentration entering the eliminating organ if the rate of elimination is 120 mg/hr, and the Qin is 1 liter/min and the Cout is 1 mg/L.
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{\text{Rate of Elimination} = Q_{\text{in}} \times (C_a - C_v)}$
+
+```{julia}
+# Given 
+q = 1 # L/min
+c_out = 1 # mg/L
+roe = 2 # mg/min
+
+# C_in
+c_in = roe / q + c_out
+
+println("Concentration entering the eliminating organ: $c_in mg/L")
+```
+
+:::
+
+------------------------------------------------------------------------------------------
+
+14. Calculate the concentration entering the eliminating organ if the rate of elimination is 200 mg/hr, and the Qin is 1 liter/min and the Cout is 0.1 mg/L.
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{\text{Rate of Elimination} = Q_{\text{in}} \times (C_a - C_v)}$
+
+```{julia}
+# Given 
+q = 1 # L/min
+c_out = 1 # mg/L
+roe_h = 200 # mg/h
+roe = 200 / 60 # mg/min
+
+# C_in
+c_in = roe / q + c_out
+
+println("Concentration entering the eliminating organ: $(round(c_in, digits = 2)) mg/L")
+```
+
+:::
+
+------------------------------------------------------------------------------------------
+
+15. Calculate the concentration leaving the eliminating organ if the rate of elimination is 100 mg/hr, and the Qin is 1 liter/min and the Cin is 2 mg/L.
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{\text{Rate of Elimination} = Q_{\text{in}} \times (C_a - C_v)}$
+
+```{julia}
+# Given 
+q = 1 # L/min
+c_in = 2 # mg/L
+roe_h = 200 # mg/h
+roe = 100 / 60 # mg/min
+
+# C_out
+c_out = c_in - roe / q 
+
+println("Concentration leaving the eliminating organ: $(round(c_out, digits = 2)) mg/L")
+```
+
+:::
+
+------------------------------------------------------------------------------------------
+
+## Section 2
+
+1. Calculate the organ clearance when the extraction ratio is 0.5 and the Qin is 1.5 liters per minute.
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{CL_{organ} = E \times Q_{in}}$
+
+```{julia}
+# Given
+e = 0.5 
+q = 1.5 # L/min
+
+# Organ clearance
+cl = e * q
+
+println("Organ clearance: $cl L/min")
+```
+
+:::
+
+------------------------------------------------------------------------------------------
+
+2. Calculate the organ clearance when the extraction ratio is 0.75 and the Qin is 1.5 liters per minute.
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{CL_{organ} = E \times Q_{in}}$
+
+```{julia}
+# Given
+e = 0.75 
+q = 1.5 # L/min
+
+# Organ clearance
+cl = e * q
+
+println("Organ clearance: $cl L/min")
+```
+
+:::
+
+------------------------------------------------------------------------------------------
+
+3. Calculate the organ clearance when the extraction ratio is 0.1 and the Qin is 2.5 liters per minute.
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{CL_{organ} = E \times Q_{in}}$
+
+```{julia}
+# Given
+e = 0.1 
+q = 2.5 # L/min
+
+# Organ clearance
+cl = e * q
+
+println("Organ clearance: $cl L/min")
+```
+
+:::
+
+------------------------------------------------------------------------------------------
+
+4. What is the maximum value that an extraction ratio can have? Why?
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+The maximum value that an extraction ratio can have is 1.
+
+$\small{E = \dfrac{C_{\text{in}} - C_{\text{out}}}{C_{\text{in}}}}$
+
+If 100% of the drug is extracted by the organ, then $\small{C_{\text{out}} = 0}$ , so $\small{E = \dfrac{C_{\text{in}} - 0}{C_{\text{in}}} = 1}$, meaning the organ extracts all of the drug that passes through it.
+
+:::
+
+------------------------------------------------------------------------------------------
+
+5. What is the minimum value for an extraction ratio?
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+The minimum value for an extraction ratio is 0
+
+If no drug is removed, then $\small{C_{\text{in}} = C_{\text{out}}}$, so $\small{E = \frac{C_{\text{in}} - C_{\text{in}}}{C_{\text{in}}} = 0}$, meaning the organ does not extract any of the drug from the blood.
+
+:::
+
+------------------------------------------------------------------------------------------
+
+6. If the flow into an organ is 1 liter per minute, what is the maximum organ clearance? Why?
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+The maximum organ clearance ($\small{E}$) is 1 L/min because $\small{CL = E \times Q}$, and the maximum extraction ratio ($\small{E}$) is 1
+
+This implies that the maximum organ clearance is equal to the organ's blood flow, as that is maximum rate at which drug can be presented to the organ for elimination.
+
+:::
+
+------------------------------------------------------------------------------------------
+
+7. Consider an organ clearance of 2 liters per minute and the flow to that same organ is 2.2 liters per minute, would these data predict a high or low extraction ratio?
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{E = \dfrac{CL}{Q}}$
+
+```{julia}
+# Given
+cl = 2 # L/min
+q = 2.2 # L/min
+
+# Extraction ratio
+e = cl / q
+
+println("Extraction ratio (E): $(round(e, digits = 2)) ")
+```
+
+Since, $\small{E > 0.7}$, it is a high extraction ratio
+:::
+
+------------------------------------------------------------------------------------------
+
+8. Define the extraction ratio.
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+Extraction ratio is the fraction of drug entering that is eliminated on single passage
+through an organ. It is the ratio of rate of elimination to rate of presentation of drug to
+an eliminating organ.
+
+:::
+
+------------------------------------------------------------------------------------------
+
+9. Drug distributes to a particular non-eliminating organ (organ X) (blood flow to organ X is 0.25 liter per minute). Calculate the organ clearance for organ X.
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+The organ clearance for organ X is $\small{0\ L/min}$ because $\small{CL = E \times Q}$, where $\small{E = 0}$ (non-eliminating organ) and $\small{Q = 0.25\ L/min}$
+
+:::
+
+------------------------------------------------------------------------------------------
+
+10. Drug distributes to a particular eliminating organ (organ Y) (blood flow to organ Y is 1.2 liter per minute). Calculate the organ clearance for organ Y. (discuss the assumptions you made in your calculation)
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{CL_{\text{organ}} = E \times Q}$, assuming moderate extraction ratio ($\small{E = 0.5}$) because it is an eliminating organ
+
+```{julia}
+# Given
+e = 0.5 
+q = 1.2 # L/min
+
+# Organ clearance
+cl = e * q
+
+println("Organ clearance: $cl L/min")
+```
+
+:::
+
+------------------------------------------------------------------------------------------
+
+# Some Basic Concepts Practice Questions:
+
+1. If the concentration in the plasma is 10 mg/L and the plasma clearance is 10 L/hr, what is the rate of elimination of drug?
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{\text{Rate of elimination} = CL \times C}$
+
+```{julia}
+# Given
+cl = 10 # L/h
+c = 10 # mg/L
+
+# Rate of elimination
+roe = cl * c
+
+println("Rate of elimination of drug: $roe mg/h")
+```
+
+:::
+
+------------------------------------------------------------------------------------------
+
+2. If the concentration in the plasma is 50 mg/L and the plasma clearance is 1 L/hr, what is the rate of elimination of drug?
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{\text{Rate of elimination} = CL \times C}$
+
+```{julia}
+# Given
+cl = 1 # L/h
+c = 50 # mg/L
+
+# Rate of elimination
+roe = cl * c
+
+println("Rate of elimination of drug: $roe mg/h")
+```
+
+:::
+
+------------------------------------------------------------------------------------------
+
+3. If the concentration in the plasma is 1 μg/L and the plasma clearance is 20 ml/min, what is the rate of elimination of drug in mg/hr?
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{\text{Rate of elimination} = CL \times C}$
+
+```{julia}
+# Given
+cl_ml = 20 # ml/min
+c_ug = 1 # ug/L
+
+# Clearance in L/hr
+cl = cl_ml / 1000 * 60
+
+# Plasma conc in mg/L
+c = c_ug / 1000
+
+# Rate of elimination
+roe = cl * c
+
+println("Rate of elimination of drug: $roe mg/h")
+```
+
+:::
+
+------------------------------------------------------------------------------------------
+
+4. If the concentration in the plasma is 10 mg/ml and the plasma clearance is 5 L/min, what is the rate of elimination of drug?
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{\text{Rate of elimination} = CL \times C}$
+
+```{julia}
+# Given
+cl = 5 # L/min
+c_ml = 10 # mg/mL
+
+# Plasma conc in mg/L
+c = c_ml * 1000
+
+# Rate of elimination
+roe = cl * c
+
+println("Rate of elimination of drug: $roe mg/min")
+```
+
+:::
+
+------------------------------------------------------------------------------------------
+
+5. If the concentration in the plasma is 10 mg/L and the rate of elimination of drug is 10 mg/hr, what is the plasma clearance of the drug?
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{CL = \dfrac{\text{Rate of elimination}}{C}}$
+
+```{julia}
+# Given
+roe = 10 # mg/h
+c = 10 # mg/L
+
+# Plasma clearance
+cl = roe / c
+
+println("Plasma clearance of the drug: $cl L/h")
+```
+
+:::
+
+------------------------------------------------------------------------------------------
+
+6. If the concentration in the plasma is 1 mg/L and the rate of elimination of drug is 10 μg/min, what is the plasma clearance of the drug?
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{CL = \dfrac{\text{Rate of elimination}}{C}}$
+
+```{julia}
+# Given
+roe_ug = 10 # ug/min
+c = 1 # mg/L
+
+# Rate of elimination in mg/min
+roe = 10 / 1000
+
+# Plasma clearance
+cl = roe / c
+
+println("Plasma clearance of the drug: $cl L/min or $(cl * 1000) mL/min")
+```
+
+:::
+
+------------------------------------------------------------------------------------------
+
+7. If the concentration in the plasma is 1.5 μg/L and the rate of elimination of drug is 10 μg/hr, what is the plasma clearance of the drug?
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{CL = \dfrac{\text{Rate of elimination}}{C}}$
+
+```{julia}
+# Given
+roe = 10 # ug/h
+c = 1.5 # ug/L
+
+# Plasma clearance
+cl = roe / c
+
+println("Plasma clearance of the drug: $(round(cl, digits = 2)) L/h")
+```
+
+:::
+
+------------------------------------------------------------------------------------------
+
+8. If the concentration in the plasma is 8 mg/L and the rate of elimination of drug is 100 mg/hr, what is the plasma clearance of the drug?
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{CL = \dfrac{\text{Rate of elimination}}{C}}$
+
+```{julia}
+# Given
+roe = 100 # mg/h
+c = 8 # mg/L
+
+# Plasma clearance
+cl = roe / c
+
+println("Plasma clearance of the drug: $(round(cl, digits = 2)) L/h")
+```
+
+:::
+
+------------------------------------------------------------------------------------------
+
+9. If the volume of distribution of a drug is 1 liter and the total clearance is 1 L/hr, what is the half-life?
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{t_{1/2} = \dfrac{0.693 \times V_d}{CL}}$
+
+```{julia}
+# Given
+vd = 1 # L
+cl = 1 # L/h
+
+# Half-life
+t_half = 0.693 * vd / cl
+
+println("Half-life: $t_half h")
+```
+
+:::
+
+------------------------------------------------------------------------------------------
+
+10. If the volume of distribution of a drug is 10 liters and the total clearance is 1 L/hr, what is the half-life?
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{t_{1/2} = \dfrac{0.693 \times V_d}{CL}}$
+
+```{julia}
+# Given
+vd = 10 # L
+cl = 1 # L/h
+
+# Half-life
+t_half = 0.693 * vd / cl
+
+println("Half-life: $t_half h")
+```
+
+:::
+
+------------------------------------------------------------------------------------------
+
+11. If the volume of distribution of a drug is 100 liters and the total clearance is 1 L/hr, what is the half-life?
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{t_{1/2} = \dfrac{0.693 \times V_d}{CL}}$
+
+```{julia}
+# Given
+vd = 100 # L
+cl = 1 # L/h
+
+# Half-life
+t_half = 0.693 * vd / cl
+
+println("Half-life: $t_half h")
+```
+
+:::
+
+------------------------------------------------------------------------------------------
+
+12. If the volume of distribution of a drug is 1000 liters and the total clearance is 1 L/hr, what is the half-life?
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{t_{1/2} = \dfrac{0.693 \times V_d}{CL}}$
+
+```{julia}
+# Given
+vd = 1000 # L
+cl = 1 # L/h
+
+# Half-life
+t_half = 0.693 * vd / cl
+
+println("Half-life: $t_half h")
+```
+
+:::
+
+------------------------------------------------------------------------------------------
+
+13. If the volume of distribution of a drug is 100 liters and the total clearance is 0.1 L/hr, what is the half-life?
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{t_{1/2} = \dfrac{0.693 \times V_d}{CL}}$
+
+```{julia}
+# Given
+vd = 100 # L
+cl = 0.1 # L/h
+
+# Half-life
+t_half = 0.693 * vd / cl
+
+println("Half-life: $(round(t_half, digits = 2)) h")
+```
+
+:::
+
+------------------------------------------------------------------------------------------
+
+14. If the volume of distribution of a drug is 100 liters and the total clearance is 1 L/hr, what is the half-life?
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{t_{1/2} = \dfrac{0.693 \times V_d}{CL}}$
+
+```{julia}
+# Given
+vd = 100 # L
+cl = 1 # L/h
+
+# Half-life
+t_half = 0.693 * vd / cl
+
+println("Half-life: $t_half h")
+```
+
+:::
+
+------------------------------------------------------------------------------------------
+
+15. If the volume of distribution of a drug is 100 liters and the total clearance is 10 L/hr, what is the half-life?
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{t_{1/2} = \dfrac{0.693 \times V_d}{CL}}$
+
+```{julia}
+# Given
+vd = 100 # L
+cl = 10 # L/h
+
+# Half-life
+t_half = 0.693 * vd / cl
+
+println("Half-life: $t_half h")
+```
+
+:::
+
+------------------------------------------------------------------------------------------
+
+16. If the volume of distribution of a drug is 100 liters and the total clearance is 100 L/hr, what is the half-life?
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+$\small{t_{1/2} = \dfrac{0.693 \times V_d}{CL}}$
+
+```{julia}
+# Given
+vd = 100 # L
+cl = 100 # L/h
+
+# Half-life
+t_half = 0.693 * vd / cl
+
+println("Half-life: $t_half h")
+```
+
+:::
+
+------------------------------------------------------------------------------------------
+
+17. If the volume of distribution increases and the clearance remains constant, what happens to the half-life?
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+Half-life of the drug increases
+
+:::
+
+------------------------------------------------------------------------------------------
+
+18. If the volume of distribution decreases and the clearance remains constant, what happens to the half-life?
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+Half-life of the drug increases
+
+:::
+
+------------------------------------------------------------------------------------------
+
+19. If the clearance increases and the volume of distribution remains constant, what happens to the half-life?
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+Half-life of the drug decreases
+
+:::
+
+------------------------------------------------------------------------------------------
+
+20. If the clearance decreases and the volume of distribution remains constant, what happens to the half-life?
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+Half-life of the drug increases
+
+:::
+
+------------------------------------------------------------------------------------------
+
+21. If the volume of distribution increases and the clearance remains constant, what happens to the initial rate of elimination?
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+The initial rate of elimination remains the same
+
+:::
+
+------------------------------------------------------------------------------------------
+
+22. If the volume of distribution decreases and the clearance remains constant, what happens to the initial rate of elimination?
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+The initial rate of elimination remains the same
+
+:::
+
+------------------------------------------------------------------------------------------
+
+23. If the clearance increases and the volume of distribution remains constant, what happens to the initial rate of elimination?
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+The initial rate of elimination increases
+
+:::
+
+------------------------------------------------------------------------------------------
+
+24. If the clearance decreases and the volume of distribution remains constant, what happens to the initial rate of elimination?
+
+::: {.content-`{julia} answers`}
+
+**Answer**
+
+The initial rate of elimination decreases
+
+:::
+
+------------------------------------------------------------------------------------------
