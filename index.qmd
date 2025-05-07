@@ -27,3 +27,5 @@ A list of all weekwise answers to practice problems.
 <li><a href="./docs/Week-2/02-one-comp-IVBolus-pp-ans.html" target="_blank">One Compartment IV Bolus</a></li>
 <li><a href="./docs/Week-3/03-p1-mem-perm-pp-ans.html" target="_blank">Membrane Permeability, Rate of Distribution, and Extent of Distribution</a></li>
 <li><a href="./docs/Week-3/03-p2-distribution-pp-ans.html" target="_blank">Drug Distribution</a></li>
+<li><a href="./docs/Week-6/06-elimination-clearance-pp-ans.html" target="_blank">Elimination Clearance</a></li>
+<li><a href="./docs/Week-7/07.1-hepatic-clearance-pp-ans.html" target="_blank">Hepatic Clearance</a></li>
